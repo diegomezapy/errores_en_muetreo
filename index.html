@@ -1,414 +1,688 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual para Conferencistas - CLATSE 2025</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Errores recurrentes en torno al tamaño muestral</title>
+
+  <!-- Tipografías -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <!-- MathJax para fórmulas -->
+  <script>
+    window.MathJax = {
+      tex: { 
+        inlineMath: [['$', '$'], ['\\(', '\\)']], 
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        macros: {
+          'p': 'p',
+          'hatp': '\\hat{p}',
+          'n': 'n',
+          'N': 'N',
+          'Z': 'Z',
+          'd': 'd',
+          's': 's',
+          'mu': '\\mu'
         }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
-        }
-        
-        .presentacion {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .diapositiva {
-            display: none;
-            padding: 40px;
-            min-height: 600px;
-            position: relative;
-            background-color: white;
-        }
-        
-        .diapositiva.activa {
-            display: block;
-        }
-        
-        .contenido {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            color: #1a5276;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 10px;
-        }
-        
-        h2 {
-            color: #2874a6;
-            margin: 25px 0 15px;
-            font-size: 1.8rem;
-        }
-        
-        h3 {
-            color: #2e86c1;
-            margin: 20px 0 10px;
-        }
-        
-        p {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-        
-        ul, ol {
-            margin-left: 30px;
-            margin-bottom: 20px;
-        }
-        
-        li {
-            margin-bottom: 8px;
-        }
-        
-        .encabezado {
-            background-color: #1a5276;
-            color: white;
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-        }
-        
-        .encabezado h1 {
-            color: white;
-            border: none;
-            margin: 0;
-            font-size: 1.8rem;
-        }
-        
-        .logo {
-            height: 70px;
-            z-index: 100;
-            position: relative;
-        }
-        
-        .pie-pagina {
-            position: absolute;
-            bottom: 15px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            padding: 0 40px;
-        }
-        
-        .navegacion {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px 40px;
-            background-color: #ecf0f1;
-        }
-        
-        button {
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #2980b9;
-        }
-        
-        .destacado {
-            background-color: #e8f4fc;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #3498db;
-        }
-        
-        .recomendacion {
-            background-color: #f9f9f9;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
-            border-left: 4px solid #2ecc71;
-        }
-        
-        .zoom-container {
-            transition: transform 0.3s;
-            transform: scale(1);
-            opacity: 1;
-        }
-        
-        .zoom-container:hover {
-            transform: scale(1.02);
-            opacity: 1;
-        }
-        
-        .info-box {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 15px 0;
-        }
-        
-        .codigo {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            padding: 15px;
-            border-radius: 5px;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 15px 0;
-            overflow-x: auto;
-        }
-    </style>
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <!-- Chart.js para la visualización de la simulación -->
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root{
+      --primary:#0c1224;
+      --secondary:#111a34;
+      --accent:#ff6a00;
+      --accent-2:#00b4d8;
+      --text:#eaf0ff;
+      --muted:#a6b4e6;
+      --card:#121a33;
+      --ok:#2ed573;
+      --warn:#ffa502;
+      --bad:#ff4757;
+      --glow: rgba(255, 106, 0, 0.4);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Open Sans',sans-serif;
+      color:var(--text);
+      background:linear-gradient(135deg, var(--primary), var(--secondary));
+      overflow:hidden;
+      position: relative;
+    }
+
+    /* Efecto de partículas */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      animation: float 15s infinite linear;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.3; }
+      100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+    }
+
+    /* Barra superior */
+    .topbar{
+      position:fixed; top:0; left:0; right:0; height:52px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 16px;
+      background:rgba(10,14,30,.85); backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(255,255,255,.1);
+      z-index:1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-family:'Montserrat',sans-serif
+    }
+    .brand .dot{width:12px; height:12px; border-radius:50%; background:var(--accent); box-shadow: 0 0 10px var(--glow);}
+    .brand .title{font-weight:700; letter-spacing:.3px; font-size: 1.1rem;}
+    .toolbar{display:flex; align-items:center; gap:8px}
+    .btn{
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08);
+      color:var(--text); padding:6px 12px; border-radius:8px;
+      cursor:pointer; font-size:.9rem; transition: all 0.3s ease;
+    }
+    .btn:hover{background:rgba(255,255,255,.15); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2);}
+    .index{
+      position:fixed; top:52px; left:0; right:0; height:6px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      transform-origin:left; transform:scaleX(0);
+      z-index:999;
+      box-shadow: 0 2px 10px rgba(255, 106, 0, 0.3);
+    }
+
+    /* Logo CLATSE */
+    .logo-clatse {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 120px;
+      height: auto;
+      z-index: 1002; /* Aumentado para que esté por encima del header */
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+      transition: transform 0.3s ease;
+    }
+    .logo-clatse:hover {
+      transform: scale(1.05);
+    }
+
+    /* Contenedor de presentación */
+    .deck{height:100vh; width:100vw; position:relative; padding-top:58px; z-index: 1;}
+    .slide{
+      position:absolute; inset:58px 0 0 0;
+      padding:40px clamp(18px,5vw,56px);
+      opacity:0; pointer-events:none; transform: translateX(100vw);
+      transition:opacity 0.8s ease, transform 0.8s ease;
+      display:flex; flex-direction:column; gap:18px;
+      overflow-y: auto;
+    }
+    .slide.active{opacity:1; pointer-events:auto; transform: translateX(0);}
+    .slide.exiting{transform: translateX(-100vw); opacity: 0;}
+    .slide h1,.slide h2,.slide h3{font-family:'Montserrat',sans-serif; margin:0}
+    .lead{font-size:1.1rem; color:var(--muted)}
+
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:14px; padding:16px 18px;
+      box-shadow:0 8px 25px rgba(0,0,0,0.3);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, z-index 0.4s;
+      transform-origin: center;
+      position: relative;
+      z-index: 1;
+    }
+    .card:hover {
+      transform: scale(1.05); /* Reducido de 1.5 a 1.05 */
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      z-index: 10;
+    }
+    .card.accent{border-left:5px solid var(--accent); box-shadow: 0 8px 25px rgba(255, 106, 0, 0.2);}
+    .card.ok{border-left:5px solid var(--ok); background:rgba(46,213,115,.1); box-shadow: 0 8px 25px rgba(46, 213, 115, 0.2);}
+    .card.warn{border-left:5px solid var(--warn); background:rgba(255,165,2,.09); box-shadow: 0 8px 25px rgba(255, 165, 2, 0.2);}
+    .card.bad{border-left:5px solid var(--bad); background:rgba(255,71,87,.1); box-shadow: 0 8px 25px rgba(255, 71, 87, 0.2);}
+
+    .grid{display:grid; gap:16px}
+    .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    @media(max-width:1024px){.grid.cols-2,.grid.cols-3{grid-template-columns:1fr}}
+
+    .kpi{
+      display:flex; align-items:baseline; gap:10px; padding:12px 14px;
+      border-radius:12px; background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.15);
+      transition: all 0.4s ease;
+      transform-origin: center;
+      position: relative;
+      z-index: 1;
+    }
+    .kpi:hover {
+      transform: scale(1.05); /* Reducido de 1.5 a 1.05 */
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+      z-index: 10;
+    }
+    .kpi .v{font-size:1.8rem; font-weight:700}
+    .kpi .t{font-size:.9rem; color:var(--muted)}
+    .hl{color:var(--accent-2); font-weight:700; text-shadow: 0 0 10px rgba(0, 180, 216, 0.3);}
+
+    .bullets{margin:0; padding-left:18px}
+    .bullets li{margin:8px 0; transition: transform 0.3s ease;}
+    .bullets li:hover {
+      transform: translateX(10px) scale(1.05); /* Reducido de 1.1 a 1.05 */
+    }
+    .step{opacity:0; transform:translateY(10px); transition:all 0.5s ease}
+    .step.visible{opacity:1; transform:translateY(0)}
+
+    .formula{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace;
+      background:rgba(0,0,0,.4);
+      border-left:4px solid var(--accent);
+      border-radius:8px; padding:12px; overflow:auto;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.4s ease;
+      transform-origin: center;
+      position: relative;
+      z-index: 1;
+    }
+    .formula:hover {
+      transform: scale(1.05); /* Reducido de 1.5 a 1.05 */
+      z-index: 10;
+    }
+
+    .footer{
+      margin-top:auto; display:flex; justify-content:space-between; align-items:center;
+      color:var(--muted); font-size:.9rem
+    }
+    .chip{
+      padding:5px 9px; border-radius:999px; background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      transition: all 0.3s ease;
+    }
+    .chip:hover {
+      background:rgba(255,255,255,.12);
+      transform: scale(1.05); /* Reducido de 1.5 a 1.05 */
+    }
+
+    /* Simulación interactiva */
+    .simulation-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .simulation-controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .simulation-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .simulation-btn:hover {
+      background: var(--accent-2);
+      transform: scale(1.05); /* Reducido de 1.1 a 1.05 */
+    }
+    
+    .simulation-results {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .simulation-chart {
+      height: 300px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 15px;
+    }
+    
+    .simulation-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    
+    .stat-box {
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .stat-box:hover {
+      transform: scale(1.05); /* Reducido de 1.1 a 1.05 */
+    }
+    
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 10px 0;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    /* Navegación inferior */
+    .nav{
+      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+      display:flex; gap:10px; z-index:1000;
+    }
+    .nav .btn{padding:10px 16px; font-weight:600; background:rgba(10,14,30,.8); backdrop-filter: blur(10px);}
+
+    /* Panel índice lateral */
+    .toc{
+      position:fixed; right:12px; top:64px; width:280px; max-height:70vh; overflow:auto;
+      background:rgba(9,12,24,.85); backdrop-filter: blur(10px);
+      border:1px solid rgba(255,255,255,.2); border-radius:12px;
+      padding:10px; display:none; z-index:1000;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .toc.show{display:block; animation: fadeIn 0.3s ease;}
+    .toc a{display:block; padding:8px 10px; color:var(--text); text-decoration:none; font-size:.95rem; border-radius:8px; transition: all 0.2s ease;}
+    .toc a:hover{background:rgba(255,255,255,.1); transform: translateX(-5px);}
+    .toc .num{opacity:.7; font-variant-numeric:tabular-nums; margin-right:6px}
+
+    /* Numeración */
+    .numtag{
+      position:absolute; top:10px; right:18px; font-size:.9rem; color:#c9d2ff88
+    }
+
+    /* Pie de página */
+    .slide-footer {
+      position: absolute;
+      bottom: 15px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+      padding: 0 40px;
+    }
+
+    /* Animaciones personalizadas */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes slideInFromLeft {
+      from { transform: translateX(-30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideInFromRight {
+      from { transform: translateX(30px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    .slide-in-left {
+      animation: slideInFromLeft 0.6s ease;
+    }
+    
+    .slide-in-right {
+      animation: slideInFromRight 0.6s ease;
+    }
+
+    /* Gráfico mejorado */
+    .chart-container {
+      position: relative;
+      height: 260px;
+      width: 100%;
+      transition: transform 0.4s ease;
+      transform-origin: center;
+    }
+    .chart-container:hover {
+      transform: scale(1.05); /* Reducido de 1.5 a 1.05 */
+    }
+
+    /* Modo impresión: una diapositiva por página */
+    @media print{
+      body{overflow:visible}
+      .topbar,.index,.nav,.toc,.logo-clatse{display:none !important}
+      .deck{padding-top:0}
+      .slide{position:static; opacity:1; transform:none; page-break-after:always; min-height:100vh}
+    }
+
+    /* Código R */
+    .code-block {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+  </style>
 </head>
 <body>
-    <div class="presentacion">
-        <div class="encabezado">
-            <h1>Manual para Conferencistas - CLATSE 2025</h1>
-            <img src="https://via.placeholder.com/200x70/1a5276/ffffff?text=CLATSE+LOGO" alt="Logo CLATSE" class="logo">
+  <!-- Logo CLATSE -->
+  <img src="https://clatse.com/wp-content/uploads/2025/02/CLATSE-LOGO-1.png" alt="CLATSE Logo" class="logo-clatse">
+
+  <!-- Efecto de partículas -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Barra superior -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="dot"></div>
+      <div class="title">Errores en Tamaño Muestral</div>
+    </div>
+    <div class="toolbar">
+      <button class="btn" id="btnPrev" aria-label="Anterior">◀</button>
+      <button class="btn" id="btnNext" aria-label="Siguiente">▶</button>
+      <button class="btn" id="btnToc" aria-label="Índice">Índice</button>
+      <button class="btn" id="btnPrint" aria-label="Imprimir">Imprimir</button>
+    </div>
+  </div>
+  <div class="index" id="progress"></div>
+
+  <!-- Índice lateral -->
+  <aside class="toc" id="toc"></aside>
+
+  <!-- Presentación -->
+  <main class="deck" id="deck">
+    <!-- 1. Portada -->
+    <section class="slide active" data-id="1" data-title="Portada">
+      <span class="numtag">1</span>
+      <h1 style="font-size:clamp(26px,4.4vw,52px); line-height:1.08; text-shadow: 0 0 20px rgba(255, 106, 0, 0.3);">
+        Errores recurrentes en torno al tamaño muestral
+      </h1>
+      <h2 style="color:var(--accent); font-size:clamp(18px,2.2vw,26px); font-weight:700; text-shadow: 0 0 15px rgba(255, 106, 0, 0.3);">Propuestas para evitarlos</h2>
+      <div class="grid cols-2">
+        <div class="card" style="animation: slideInFromLeft 0.7s ease;">
+          <div class="lead">Autores</div>
+          <div style="margin-top:6px">
+            Félix Alberto Ávalos Espinosa<br/>
+            Gustavo Ignacio Rivas Martínez<br/>
+            Jessica Andrea Correa Paredes<br/>
+            Julio Veloto
+          </div>
+          <div style="margin-top:10px; color:var(--muted)">9 de junio de 2025</div>
+          <div class="chip pulse" style="margin-top:10px">CLATSE — XVICUADOR 2025</div>
         </div>
-        
-        <!-- Diapositiva 1: Portada -->
-        <div class="diapositiva activa zoom-container">
-            <div class="contenido">
-                <h1>ECUADOR 2025</h1>
-                <h2>CLATSE</h2>
-                <h3>XVI Congreso Latinoamericano de Sociedades de Estadística</h3>
-                <p><strong>20 al 24 de octubre</strong></p>
-                <p>PUCE, Quito, Ecuador</p>
-                <div class="destacado">
-                    <h2>MANUAL PARA EL CONFERENCISTA</h2>
-                </div>
-                <p>SOCIEDAD ECUATORIANA DE ESTADÍSTICA</p>
-                <p>PUCE</p>
-            </div>
-            <div class="pie-pagina">
-                Autor: Diego Bernardo Meza
-            </div>
+        <div class="card" style="animation: slideInFromRight 0.7s ease;">
+          <div class="lead">Resumen</div>
+          <p style="margin-top:6px">
+            Se analizan dos errores metodológicos frecuentes, la aplicación de fórmulas de muestreo probabilístico en diseños no probabilísticos y
+            la incongruencia entre el cálculo muestral y la naturaleza de la variable. Se proponen lineamientos, un procedimiento para escalas Likert,
+            y una estrategia de muestreo aleatorio con población no delimitada.
+          </p>
+          <div class="kpi"><span class="v">3,3&nbsp;millones</span><span class="t">artículos publicados, 2022</span></div>
         </div>
-        
-        <!-- Diapositiva 2: Bienvenida -->
-        <div class="diapositiva zoom-container">
-            <div class="contenido">
-                <h1>Bienvenida</h1>
-                <p>Es un honor darles la más cordial bienvenida al Congreso Latinoamericano de Sociedades de Estadística (CLATSE 2025), que se llevará a cabo del 20 al 24 de octubre de 2025 en la Pontificia Universidad Católica del Ecuador (PUCE), sede Quito.</p>
-                <p>Este congreso reúne a destacados especialistas, docentes, investigadores y profesionales de la estadística, la ciencia de datos y áreas afines, con el propósito de enriquecer y fortalecer la práctica estadística en Latinoamérica a través del intercambio académico, la investigación aplicada y la innovación.</p>
-                <p>En nombre del Comité Organizador y de la Sociedad Ecuatoriana de Estadística (SEE), agradecemos profundamente su compromiso y entusiasmo. Sus aportes serán fundamentales para el éxito de este encuentro académico.</p>
-                
-                <h2>Lugar del evento</h2>
-                <ul>
-                    <li><strong>Sede:</strong> Pontificia Universidad Católica del Ecuador (PUCE) – Campus Quito.</li>
-                    <li><strong>Ubicación:</strong> Av. 12 de Octubre 1076 y Roca, Quito – Ecuador.</li>
-                </ul>
-            </div>
-            <div class="pie-pagina">
-                Autor: Diego Bernardo Meza
-            </div>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
+
+    <!-- 2. Presentación del disertante -->
+    <section class="slide" data-id="2" data-title="Presentación del disertante">
+      <span class="numtag">2</span>
+      <h2>Presentación del Disertante</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="lead">Diego Bernardo Meza Bogado</div>
+          <ul class="bullets" style="margin-top:10px">
+            <li class="step">Licenciado en Ciencias Matemáticas con mención en Estadística</li>
+            <li class="step">Magíster en Estadística</li>
+            <li class="step">Doctorando en Ciencias Exactas, Naturales y sus Aplicaciones</li>
+            <li class="step">Profesor Escalafonado Asistente en la Facultad de Ciencias Exactas y Naturales - UNA</li>
+            <li class="step">Especialista en estadística aplicada, economía laboral y seguridad social</li>
+            <li class="step">Experiencia en análisis de registros administrativos y datos abiertos</li>
+          </ul>
+          <div class="kpi" style="margin-top:15px">
+            <span class="v">15+</span>
+            <span class="t">años de experiencia</span>
+          </div>
         </div>
-        
-        <!-- Diapositiva 3: Recepción de charlas -->
-        <div class="diapositiva zoom-container">
-            <div class="contenido">
-                <h1>Recepción de Charlas</h1>
-                
-                <div class="recomendacion">
-                    <h3>Entrega de archivos</h3>
-                    <ul>
-                        <li>Entrega de archivos en el Hall de acceso Torre 1, PUCE.</li>
-                        <li>Horario: de 07h30 a 17h00.</li>
-                        <li>Formatos permitidos: PowerPoint o Keynote.</li>
-                    </ul>
-                </div>
-                
-                <div class="recomendacion">
-                    <h3>Envío digital</h3>
-                    <ul>
-                        <li>Enviar al correo: <strong>conferenciasclatse2025@gmail.com</strong></li>
-                        <li>También puede transferirse mediante Google Drive o WeTransfer.</li>
-                    </ul>
-                </div>
-                
-                <div class="recomendacion">
-                    <h3>Formato de archivo</h3>
-                    <p>Su conferencia debe estar guardada con el siguiente formato:</p>
-                    <p><strong>Fecha – Hora – Tema – Nombre del ponente</strong></p>
-                    <p>Ejemplo: <em>20oct_09h00_EstadísticaAvanzada_JoelSalazar.pptx</em></p>
-                </div>
-                
-                <div class="recomendacion">
-                    <h3>Recomendación importante</h3>
-                    <p>Recuerde estar en el salón asignado <strong>15 minutos antes</strong> de su conferencia.</p>
-                </div>
-            </div>
-            <div class="pie-pagina">
-                Autor: Diego Bernardo Meza
-            </div>
+        <div class="card">
+          <div class="lead">Áreas de Especialización</div>
+          <ul class="bullets" style="margin-top:10px">
+            <li class="step">Estadística aplicada a políticas públicas</li>
+            <li class="step">Análisis actuarial y seguridad social</li>
+            <li class="step">Mercado laboral y economía</li>
+            <li class="step">Gestión y análisis de datos</li>
+            <li class="step">Programación en R y Python para ciencias de datos</li>
+            <li class="step">Automatización de procesos estadísticos</li>
+          </ul>
+          <div class="card accent" style="margin-top:15px">
+            <div class="lead">CV Público</div>
+            <p style="margin-top:6px">
+              <a href="https://cv.conacyt.gov.py/publicar/cv?id=ea46989c3d19cb9063f3b98999d33ab8" 
+                 target="_blank" 
+                 style="color: var(--accent-2); text-decoration: none; font-weight: 600;">
+                https://cv.conacyt.gov.py/publicar/cv?id=ea46989c3d19cb9063f3b98999d33ab8
+              </a>
+            </p>
+          </div>
         </div>
-        
-        <!-- Diapositiva 4: Agenda Académica -->
-        <div class="diapositiva zoom-container">
-            <div class="contenido">
-                <h1>Agenda Académica</h1>
-                
-                <div class="recomendacion">
-                    <h3>Programación de ponencias</h3>
-                    <ul>
-                        <li>Cada ponencia tendrá asignado un tiempo específico según el programa oficial.</li>
-                        <li>Consulte el programa en: <strong>http://cronograma.clatse.com/</strong></li>
-                    </ul>
-                </div>
-                
-                <div class="recomendacion">
-                    <h3>Moderación de sesiones</h3>
-                    <ul>
-                        <li>El moderador de la sesión presentará a cada conferencista.</li>
-                        <li>El moderador gestionará los tiempos de intervención.</li>
-                    </ul>
-                </div>
-                
-                <div class="destacado">
-                    <h3>Recomendaciones para su presentación</h3>
-                    <ul>
-                        <li>Prepare su presentación respetando el tiempo asignado.</li>
-                        <li>Incluya una introducción clara y conclusiones concretas.</li>
-                        <li>Practique su presentación previamente para ajustar tiempos.</li>
-                        <li>Revise que todos los elementos multimedia funcionen correctamente.</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="pie-pagina">
-                Autor: Diego Bernardo Meza
-            </div>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
+
+    <!-- 3. Introducción -->
+    <section class="slide" data-id="3" data-title="Introducción y motivación">
+      <span class="numtag">3</span>
+      <h2>Introducción y motivación</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <ul class="bullets">
+            <li class="step">Crecimiento sostenido de la producción científica. En 2022 se superaron 3,3 millones de artículos.</li>
+            <li class="step">La estadística sustenta avances en ciencias naturales, sociales, salud y aplicaciones.</li>
+            <li class="step">Persisten errores metodológicos básicos que comprometen validez y generalización.</li>
+          </ul>
         </div>
-        
-        <!-- Diapositiva 5: Actividades Sociales -->
-        <div class="diapositiva zoom-container">
-            <div class="contenido">
-                <h1>Actividades Sociales</h1>
-                <p>El Comité Organizador ha preparado momentos especiales para fomentar la integración y el networking:</p>
-                
-                <div class="info-box">
-                    <h3>Ceremonia inaugural</h3>
-                    <ul>
-                        <li><strong>Fecha:</strong> 20 de octubre</li>
-                        <li><strong>Lugar:</strong> Auditorio Magistral, PUCE</li>
-                        <li><strong>Hora:</strong> 08h30</li>
-                        <li><strong>Código de vestimenta:</strong> casual formal</li>
-                    </ul>
-                </div>
-                
-                <div class="info-box">
-                    <h3>Coctel de inauguración</h3>
-                    <ul>
-                        <li><strong>Fecha:</strong> 20 de octubre</li>
-                        <li><strong>Lugar:</strong> Hall Torre 1, PUCE</li>
-                        <li><strong>Hora:</strong> 18h00</li>
-                        <li><strong>Código de vestimenta:</strong> casual</li>
-                    </ul>
-                </div>
-                
-                <div class="info-box">
-                    <h3>Coctel de clausura</h3>
-                    <ul>
-                        <li><strong>Fecha:</strong> 25 de octubre</li>
-                        <li><strong>Lugar:</strong> Ciudad Mitad del Mundo</li>
-                        <li><strong>Código de vestimenta:</strong> ropa y zapatos cómodos, abrigo recomendado</li>
-                    </ul>
-                </div>
-                
-                <p>En el programa digital encontrarás un código QR con la información completa de las actividades sociales.</p>
-            </div>
-            <div class="pie-pagina">
-                Autor: Diego Bernardo Meza
-            </div>
+        <div class="card">
+          <div class="lead">Casos emblemáticos</div>
+          <ul class="bullets" style="margin-top:6px">
+            <li class="step">British Doctors Study, cohorte y riesgo de cáncer de pulmón.</li>
+            <li class="step">Framingham Study, factores de riesgo cardiovascular.</li>
+            <li class="step">Ensayos de vacunas COVID-19, diseños aleatorizados.</li>
+          </ul>
         </div>
-        
-        <!-- Diapositiva 6: Detalles de la Base de Muestreo -->
-        <div class="diapositiva zoom-container">
-            <div class="contenido">
-                <h1>Detalles de la Base de Muestreo</h1>
-                
-                <h2>Base Real para el Desarrollo del Muestreo</h2>
-                <p>El estudio se basó en datos recopilados de múltiples fuentes para garantizar la representatividad y validez estadística:</p>
-                
-                <div class="info-box">
-                    <h3>Fuentes de datos</h3>
-                    <ul>
-                        <li>Encuestas nacionales de salud y nutrición (ENSANUT)</li>
-                        <li>Registros administrativos del sistema de salud público</li>
-                        <li>Datos censales del Instituto Nacional de Estadística y Censos (INEC)</li>
-                        <li>Estudios longitudinales de cohortes regionales</li>
-                    </ul>
-                </div>
-                
-                <div class="info-box">
-                    <h3>Características de la muestra</h3>
-                    <ul>
-                        <li><strong>Tamaño muestral:</strong> n = 2,500 participantes</li>
-                        <li><strong>Diseño muestral:</strong> Muestreo estratificado por regiones</li>
-                        <li><strong>Periodo de recolección:</strong> Enero 2023 - Diciembre 2024</li>
-                        <li><strong>Criterios de inclusión:</strong> Adultos entre 18-65 años, residentes permanentes</li>
-                    </ul>
-                </div>
-                
-                <div class="info-box">
-                    <h3>Variables principales</h3>
-                    <ul>
-                        <li>Variables sociodemográficas (edad, género, educación, ingresos)</li>
-                        <li>Indicadores de salud (IMC, presión arterial, condiciones crónicas)</li>
-                        <li>Factores de riesgo (tabaquismo, actividad física, alimentación)</li>
-                        <li>Acceso y utilización de servicios de salud</li>
-                    </ul>
-                </div>
-                
-                <div class="destacado">
-                    <h3>Consideraciones metodológicas</h3>
-                    <p>Se aplicaron factores de expansión para ajustar por no respuesta y para hacer inferencias a la población objetivo. El error muestral estimado es del ±2.5% con un nivel de confianza del 95%.</p>
-                </div>
-            </div>
-            <div class="pie-pagina">
-                Autor: Diego Bernardo Meza
-            </div>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
+
+    <!-- 4. Error 1 -->
+    <section class="slide" data-id="4" data-title="Error 1: fórmulas en diseños no probabilísticos">
+      <span class="numtag">4</span>
+      <h2>Error 1, aplicación indebida de fórmulas</h2>
+      <div class="grid cols-2">
+        <div class="card bad">
+          <div class="lead">Problema</div>
+          <p style="margin-top:6px">
+            Se calcula $n$ con fórmulas que suponen muestreo probabilístico, pero se levanta la muestra por conveniencia, bola de nieve o auto-selección.
+          </p>
+          <div class="formula">
+            Proporción: $$n \;=\; \frac{Z^2\,p\,(1-p)}{d^2} \quad\text{con}\quad n_{aj}\;=\;\frac{n_0\,N}{n_0 + (N-1)},\; n_0=\frac{Z^2 p (1-p)}{d^2}$$
+          </div>
         </div>
-        
-        <!-- Diapositiva 7: Implementación en R -->
-        <div class="diapositiva zoom-container">
-            <div class="contenido">
-                <h1>Implementación en R</h1>
-                <h2>Gestión de Datos y Simulación</h2>
-                
-                <div class="info-box">
-                    <h3>Paquetes utilizados</h3>
-                    <ul>
-                        <li><strong>dplyr</strong> y <strong>tidyr</strong> para manipulación de datos</li>
-                        <li><strong>ggplot2</strong> para visualización</li>
-                        <li><strong>survey</strong> para análisis de datos complejos</li>
-                        <li><strong>boot</strong> para métodos de bootstrap</li>
-                        <li><strong>MASS</strong> para simulaciones</li>
-                    </ul>
-                </div>
-                
-                <h3>Código para gestión de datos</h3>
-                <div class="codigo">
+        <div class="card">
+          <div class="lead">Ámbitos de validez</div>
+          <ul class="bullets" style="margin-top:6px">
+            <li class="step">Muestreo aleatorio simple.</li>
+            <li class="step">Muestreo estratificado con selección aleatoria.</li>
+          </ul>
+          <div class="lead" style="margin-top:12px">Implicancias</div>
+          <ul class="bullets">
+            <li class="step">Sin probabilidades de inclusión conocidas no hay inferencia válida.</li>
+            <li class="step">Un $n$ correcto no compensa un diseño incorrecto.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
+
+    <!-- 5. Error 2 -->
+    <section class="slide" data-id="5" data-title="Error 2: parámetro y variable no corresponden">
+      <span class="numtag">5</span>
+      <h2>Error 2, inconsistencia entre parámetro y variable</h2>
+      <div class="grid cols-2">
+        <div class="card warn">
+          <div class="lead">Dos manifestaciones</div>
+          <ul class="bullets" style="margin-top:6px">
+            <li class="step">Omisión del parámetro que justifica el cálculo, por ejemplo uso genérico de $p=0{,}5$ sin respaldo.</li>
+            <li class="step">Fórmula inadecuada al tipo de variable, por ejemplo usar fórmula de proporciones con escalas Likert.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="lead">Formulaciones correctas</div>
+          <div class="formula">Proporción: $$n \;=\; \frac{Z^2\,p\,(1-p)}{d^2}$$</div>
+          <div class="formula">Media: $$n \;=\; \frac{Z^2\,s^2}{d^2}$$</div>
+          <ul class="bullets">
+            <li class="step">Justificar $p$ o $s$ vía piloto, literatura o datos previos.</li>
+            <li class="step">Adoptar el mayor $n$ si hay múltiples variables objetivo.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
+
+    <!-- 6. Base Real del Muestreo -->
+    <section class="slide" data-id="6" data-title="Base Real del Muestreo">
+      <span class="numtag">6</span>
+      <h2>Base Real para el Desarrollo del Muestreo</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="lead">Fuentes de Datos</div>
+          <ul class="bullets" style="margin-top:10px">
+            <li class="step">Encuestas nacionales de salud y nutrición (ENSANUT)</li>
+            <li class="step">Registros administrativos del sistema de salud público</li>
+            <li class="step">Datos censales del Instituto Nacional de Estadística y Censos (INEC)</li>
+            <li class="step">Estudios longitudinales de cohortes regionales</li>
+            <li class="step">Registros administrativos del Instituto de Previsión Social (IPS)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="lead">Características de la Muestra</div>
+          <ul class="bullets" style="margin-top:10px">
+            <li class="step"><strong>Tamaño muestral:</strong> n = 2,500 participantes</li>
+            <li class="step"><strong>Diseño muestral:</strong> Muestreo estratificado por regiones</li>
+            <li class="step"><strong>Periodo de recolección:</strong> Enero 2023 - Diciembre 2024</li>
+            <li class="step"><strong>Criterios de inclusión:</strong> Adultos entre 18-65 años, residentes permanentes</li>
+          </ul>
+          <div class="kpi" style="margin-top:15px">
+            <span class="v">±2.5%</span>
+            <span class="t">error muestral estimado</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <div class="lead">Variables Principales</div>
+        <div class="grid cols-3" style="margin-top:10px">
+          <div>
+            <ul class="bullets">
+              <li class="step">Edad</li>
+              <li class="step">Género</li>
+              <li class="step">Educación</li>
+            </ul>
+          </div>
+          <div>
+            <ul class="bullets">
+              <li class="step">Ingresos</li>
+              <li class="step">IMC</li>
+              <li class="step">Presión arterial</li>
+            </ul>
+          </div>
+          <div>
+            <ul class="bullets">
+              <li class="step">Condiciones crónicas</li>
+              <li class="step">Factores de riesgo</li>
+              <li class="step">Acceso a servicios</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
+
+    <!-- 7. Implementación en R -->
+    <section class="slide" data-id="7" data-title="Implementación en R">
+      <span class="numtag">7</span>
+      <h2>Implementación en R: Gestión de Datos y Simulación</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="lead">Paquetes Utilizados</div>
+          <ul class="bullets" style="margin-top:10px">
+            <li class="step"><strong>dplyr</strong> y <strong>tidyr</strong> para manipulación de datos</li>
+            <li class="step"><strong>ggplot2</strong> para visualización</li>
+            <li class="step"><strong>survey</strong> para análisis de datos complejos</li>
+            <li class="step"><strong>boot</strong> para métodos de bootstrap</li>
+            <li class="step"><strong>MASS</strong> para simulaciones</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="lead">Flujo de Trabajo</div>
+          <ul class="bullets" style="margin-top:10px">
+            <li class="step">Carga y limpieza de datos</li>
+            <li class="step">Análisis exploratorio</li>
+            <li class="step">Cálculo de tamaños muestrales</li>
+            <li class="step">Simulación de escenarios</li>
+            <li class="step">Validación de resultados</li>
+            <li class="step">Generación de reportes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <div class="lead">Código para Gestión de Datos</div>
+        <div class="code-block">
 # Cargar librerías necesarias<br>
 library(dplyr)<br>
 library(tidyr)<br>
@@ -433,129 +707,553 @@ resumen <- datos_limpios %>%<br>
 &nbsp;&nbsp;&nbsp;&nbsp;promedio_edad = mean(edad),<br>
 &nbsp;&nbsp;&nbsp;&nbsp;.groups = 'drop'<br>
 &nbsp;&nbsp;)
-                </div>
-                
-                <h3>Código para simulación</h3>
-                <div class="codigo">
-# Función para simular datos<br>
-simular_datos <- function(n, media, desviacion) {<br>
-&nbsp;&nbsp;set.seed(123) # Para reproducibilidad<br>
-&nbsp;&nbsp;rnorm(n, mean = media, sd = desviacion)<br>
-}<br>
-<br>
-# Simulación de presión arterial<br>
-presion_sistolica <- simular_datos(1000, 120, 15)<br>
-presion_diastolica <- simular_datos(1000, 80, 10)<br>
-<br>
-# Crear dataframe simulado<br>
-datos_simulados <- data.frame(<br>
-&nbsp;&nbsp;id = 1:1000,<br>
-&nbsp;&nbsp;presion_sistolica = presion_sistolica,<br>
-&nbsp;&nbsp;presion_diastolica = presion_diastolica<br>
-)<br>
-<br>
-# Análisis de datos simulados<br>
-resultados_simulacion <- datos_simulados %>%<br>
-&nbsp;&nbsp;mutate(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;hipertension = ifelse(presion_sistolica >= 140 | presion_diastolica >= 90, 1, 0)<br>
-&nbsp;&nbsp;) %>%<br>
-&nbsp;&nbsp;summarise(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;prevalencia_hipertension = mean(hipertension) * 100<br>
-&nbsp;&nbsp;)
-                </div>
-                
-                <div class="destacado">
-                    <h3>Consideraciones técnicas</h3>
-                    <p>Todo el código fue desarrollado en R versión 4.2.1 y está disponible en el repositorio GitHub del proyecto. Se implementaron controles de calidad de datos y validaciones cruzadas para garantizar la robustez de los resultados.</p>
-                </div>
-            </div>
-            <div class="pie-pagina">
-                Autor: Diego Bernardo Meza
-            </div>
         </div>
-        
-        <!-- Diapositiva 8: Contacto -->
-        <div class="diapositiva zoom-container">
-            <div class="contenido">
-                <h1>Contacto y Soporte</h1>
-                
-                <p>Para cualquier información adicional:</p>
-                
-                <div class="info-box">
-                    <h3>Coordinación CLATSE 2025</h3>
-                    <ul>
-                        <li><strong>Correo:</strong> clatse2025ecuador@gmail.com</li>
-                        <li><strong>WhatsApp:</strong> +593 96 344 7976</li>
-                    </ul>
-                </div>
-                
-                <div class="destacado">
-                    <h3>Recomendaciones finales</h3>
-                    <ul>
-                        <li>Revise con anticipación el lugar de su presentación.</li>
-                        <li>Lleve consigo una copia de respaldo de su presentación.</li>
-                        <li>Participe en las actividades sociales para networking.</li>
-                        <li>Disfrute de la belleza de Quito y la cultura ecuatoriana.</li>
-                    </ul>
-                </div>
-                
-                <h2>¡Esperamos que su participación en CLATSE 2025 sea un éxito!</h2>
-            </div>
-            <div class="pie-pagina">
-                Autor: Diego Bernardo Meza
-            </div>
-        </div>
-        
-        <div class="navegacion">
-            <button id="anterior">Anterior</button>
-            <button id="siguiente">Siguiente</button>
-        </div>
-    </div>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const diapositivas = document.querySelectorAll('.diapositiva');
-            const btnAnterior = document.getElementById('anterior');
-            const btnSiguiente = document.getElementById('siguiente');
-            let indiceActual = 0;
+    <!-- 8. Escalas Likert -->
+    <section class="slide" data-id="8" data-title="Escalas Likert: dos rutas">
+      <span class="numtag">8</span>
+      <h2>Escalas Likert, dos rutas metodológicas</h2>
+      <div class="grid cols-2">
+        <div class="card ok">
+          <div class="lead">A) Dicotomizar con criterio</div>
+          <ul class="bullets" style="margin-top:6px">
+            <li class="step">Agrupar 1–3 como 0 y 4–5 como 1, definir semántica antes del levantamiento.</li>
+            <li class="step">Piloto de 30–50 sujetos, obtener $\hat p$.</li>
+            <li class="step">Calcular $$n \;=\; \dfrac{Z^2 \hat p (1-\hat p)}{d^2}$$ con ajuste por población finita si corresponde.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="lead">B) Mantener ordinalidad</div>
+          <ul class="bullets" style="margin-top:6px">
+            <li class="step">Evitar fórmulas para medias si el análisis será no paramétrico.</li>
+            <li class="step">Planificar pruebas como Mann–Whitney o Kruskal–Wallis.</li>
+            <li class="step">Justificar $n$ con literatura específica del método o estudios similares.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
+
+    <!-- 9. Población no delimitada -->
+    <section class="slide" data-id="9" data-title="Población no delimitada: muestreo aleatorio operativo">
+      <span class="numtag">9</span>
+      <h2>Muestreo aleatorio con población no delimitada</h2>
+      <div class="card accent">
+        <div class="lead">Estrategia basada en orden de llegada</div>
+        <ol class="bullets" style="margin-top:6px; padding-left:22px">
+          <li class="step">Definir $N^*$ como máximo operativo, por ejemplo los primeros 400 casos.</li>
+          <li class="step">Calcular $n$ requerido con fórmula de proporción o media.</li>
+          <li class="step">Seleccionar aleatoriamente $n$ números únicos en $\{1,\dots,N^*\}$.</li>
+          <li class="step">Enumerar sujetos por llegada e incluir solo posiciones seleccionadas.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <ul class="bullets">
+          <li class="step">Garantiza probabilidad igual para cada unidad dentro del marco operativo.</li>
+          <li class="step">La inferencia se circunscribe a los primeros $N^*$ casos definidos.</li>
+          <li class="step">Documentar supuestos, agotamiento potencial y logística.</li>
+        </ul>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
+
+    <!-- 10. Simulación: diseño -->
+    <section class="slide" data-id="10" data-title="Simulación: diseño y parámetros">
+      <span class="numtag">10</span>
+      <h2>Simulación, diseño y parámetros</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="lead">Población y parámetros</div>
+          <ul class="bullets" style="margin-top:6px">
+            <li class="step">Nómina sector público, abril 2025, $N=279\,152$.</li>
+            <li class="step">Proporción de mujeres, $P=0{,}52$.</li>
+            <li class="step">Media salarial, $\mu=7\,077\,586$ Gs, $s\approx 2\,482\,200$ Gs.</li>
+          </ul>
+          <div class="lead" style="margin-top:10px">Tamaños</div>
+          <ul class="bullets">
+            <li class="step">Proporción, $n=384$ con $p=0{,}5$, $d=0{,}05$.</li>
+            <li class="step">Media, $n\approx 263$ con $d=300\,000$.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="lead">Esquemas y métricas</div>
+          <ul class="bullets" style="margin-top:6px">
+            <li class="step">Esquemas: aleatorio simple sin reemplazo, conveniencia en 5 instituciones grandes.</li>
+            <li class="step">Réplicas: 10 000 por esquema.</li>
+            <li class="step">Métricas: cobertura empírica del IC 95 por ciento, sesgo relativo.</li>
+          </ul>
+          <div class="kpi"><span class="v">10&nbsp;000</span><span class="t">réplicas por escenario</span></div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
+
+    <!-- 11. Simulación: resultados con gráfico -->
+    <section class="slide" data-id="11" data-title="Simulación Interactiva">
+      <span class="numtag">11</span>
+      <h2>Simulación Interactiva: Cobertura y Sesgo</h2>
+      <div class="simulation-container">
+        <div class="simulation-controls">
+          <button class="simulation-btn" id="runSimulation">Ejecutar Simulación</button>
+          <button class="simulation-btn" id="resetSimulation">Reiniciar</button>
+          <span id="simulationStatus">Listo para ejecutar</span>
+        </div>
+        
+        <div class="simulation-results">
+          <div class="simulation-chart">
+            <canvas id="simulationChart" aria-label="Resultados de simulación"></canvas>
+          </div>
+          
+          <div class="simulation-stats">
+            <div class="stat-box">
+              <div class="stat-label">Cobertura - Conveniencia</div>
+              <div class="stat-value" id="coverageConv">0%</div>
+              <div class="stat-label">Proporción: <span id="propConv">0%</span></div>
+              <div class="stat-label">Media: <span id="meanConv">0%</span></div>
+            </div>
             
-            function mostrarDiapositiva(indice) {
-                diapositivas.forEach(diapositiva => {
-                    diapositiva.classList.remove('activa');
-                });
-                
-                diapositivas[indice].classList.add('activa');
+            <div class="stat-box">
+              <div class="stat-label">Cobertura - Aleatorio</div>
+              <div class="stat-value" id="coverageRand">0%</div>
+              <div class="stat-label">Proporción: <span id="propRand">0%</span></div>
+              <div class="stat-label">Media: <span id="meanRand">0%</span></div>
+            </div>
+            
+            <div class="stat-box">
+              <div class="stat-label">Sesgo - Conveniencia</div>
+              <div class="stat-value" id="biasConv">0%</div>
+              <div class="stat-label">Proporción: <span id="biasPropConv">0%</span></div>
+              <div class="stat-label">Media: <span id="biasMeanConv">0%</span></div>
+            </div>
+            
+            <div class="stat-box">
+              <div class="stat-label">Sesgo - Aleatorio</div>
+              <div class="stat-value" id="biasRand">0%</div>
+              <div class="stat-label">Proporción: <span id="biasPropRand">0%</span></div>
+              <div class="stat-label">Media: <span id="biasMeanRand">0%</span></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="lead">Interpretación de resultados</div>
+          <p>La simulación demuestra cómo el muestreo por conveniencia, incluso con el tamaño muestral calculado correctamente, produce intervalos de confianza que no cubren el parámetro poblacional. En contraste, el muestreo aleatorio mantiene la cobertura cercana al 95% esperado.</p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
+
+    <!-- 12. Pautas -->
+    <section class="slide" data-id="12" data-title="Pautas prácticas">
+      <span class="numtag">12</span>
+      <h2>Pautas prácticas para evitar errores</h2>
+      <div class="grid cols-3">
+        <div class="card">
+          <ul class="bullets">
+            <li class="step">Definir con precisión la variable principal y el parámetro de interés.</li>
+            <li class="step">Justificar $p$, $s$, $d$ y nivel de confianza con evidencia.</li>
+            <li class="step">Utilizar el mayor $n$ entre variables críticas.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <ul class="bullets">
+            <li class="step">Alinear fórmula con el nivel de medición de la variable.</li>
+            <li class="step">Ajustar por población finita cuando $n/N \gtrsim 5$–10 por ciento.</li>
+            <li class="step">Describir el mecanismo de selección y el marco muestral.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <ul class="bullets">
+            <li class="step">En estudios exploratorios, explicitar que no se generaliza.</li>
+            <li class="step">Para Likert, dicotomizar o justificar análisis ordinal.</li>
+            <li class="step">Documentar limitaciones operativas y su impacto.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer">
+        Autor: Diego Bernardo Meza
+      </div>
+    </section>
+
+    <!-- 13. Cierre -->
+    <section class="slide" data-id="13" data-title="Cierre y mensajes finales">
+      <span class="numtag">13</span>
+      <h2>Cierre</h2>
+      <div class="card ok">
+        <ul class="bullets">
+          <li class="step">Calcular $n$ no basta. El diseño debe ser probabilístico si se desea inferir.</li>
+          <li class="step">El ajuste metodológico depende de la variable y del objetivo inferencial.</li>
+          <li class="step">La estrategia operativa permite muestreo aleatorio en escenarios sin población cerrada.</li>
+        </ul>
+      </div>
+      <div class="slide-footer">
+        <span class="chip pulse">Gracias</span>
+        <span>Autor: Diego Bernardo Meza</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- Navegación inferior redundante -->
+  <div class="nav">
+    <button class="btn" id="btnPrev2" aria-label="Anterior">◀ Anterior</button>
+    <button class="btn" id="btnNext2" aria-label="Siguiente">Siguiente ▶</button>
+  </div>
+
+  <script>
+    // Utilidades
+    const $ = (s, r=document) => r.querySelector(s);
+    const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+    // Estado
+    const slides = $$('.slide');
+    let idx = 0;
+    let simulationChart = null;
+    let simulationRunning = false;
+
+    // Crear efecto de partículas
+    function createParticles() {
+      const particlesContainer = $('#particles');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Tamaño aleatorio
+        const size = Math.random() * 4 + 1;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Posición inicial aleatoria
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        // Duración y delay aleatorios
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 10;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Construir TOC
+    const toc = $('#toc');
+    slides.forEach((sl, i) => {
+      const a = document.createElement('a');
+      a.href = `#${i+1}`;
+      a.innerHTML = `<span class="num">${i+1}.</span> ${sl.dataset.title||'Sin título'}`;
+      a.addEventListener('click', e => { e.preventDefault(); go(i); toc.classList.remove('show'); });
+      toc.appendChild(a);
+    });
+
+    // Eventos botones
+    const prevBtns = [$('#btnPrev'), $('#btnPrev2')];
+    const nextBtns = [$('#btnNext'), $('#btnNext2')];
+    prevBtns.forEach(b => b.addEventListener('click', () => go(idx-1)));
+    nextBtns.forEach(b => b.addEventListener('click', () => go(idx+1)));
+    $('#btnToc').addEventListener('click', () => toc.classList.toggle('show'));
+    $('#btnPrint').addEventListener('click', () => window.print());
+
+    // Teclado
+    document.addEventListener('keydown', e => {
+      if(e.key === 'ArrowRight' || e.key === 'PageDown') go(idx+1);
+      if(e.key === 'ArrowLeft'  || e.key === 'PageUp')   go(idx-1);
+      if(e.key === 'Home') go(0);
+      if(e.key === 'End')  go(slides.length-1);
+      if(e.key.toLowerCase() === 'i') toc.classList.toggle('show');
+    });
+
+    // Hash deep-link
+    function fromHash(){
+      const h = location.hash.replace('#','');
+      const n = parseInt(h,10);
+      if(!isNaN(n) && n>=1 && n<=slides.length) return n-1;
+      return 0;
+    }
+
+    // Simulación de muestreo
+    function runSimulation() {
+      if (simulationRunning) return;
+      simulationRunning = true;
+      
+      const status = $('#simulationStatus');
+      status.textContent = 'Ejecutando simulación...';
+      
+      // Parámetros de la simulación
+      const N = 279152;  // Tamaño poblacional
+      const pTrue = 0.52; // Proporción real de mujeres
+      const meanTrue = 7077586; // Media salarial real
+      const n = 384; // Tamaño muestral
+      const R = 1000; // Número de réplicas
+      const Z = 1.96; // Valor Z para 95% de confianza
+      
+      // Resultados acumulativos
+      let coverageConvProp = 0;
+      let coverageConvMean = 0;
+      let coverageRandProp = 0;
+      let coverageRandMean = 0;
+      
+      let biasConvProp = 0;
+      let biasConvMean = 0;
+      let biasRandProp = 0;
+      let biasRandMean = 0;
+      
+      let completed = 0;
+      
+      // Función para actualizar la interfaz
+      function updateUI() {
+        const progress = completed / R;
+        
+        // Actualizar estadísticas
+        $('#coverageConv').textContent = `${((coverageConvProp + coverageConvMean) / (2 * completed) * 100).toFixed(1)}%`;
+        $('#propConv').textContent = `${(coverageConvProp / completed * 100).toFixed(1)}%`;
+        $('#meanConv').textContent = `${(coverageConvMean / completed * 100).toFixed(1)}%`;
+        
+        $('#coverageRand').textContent = `${((coverageRandProp + coverageRandMean) / (2 * completed) * 100).toFixed(1)}%`;
+        $('#propRand').textContent = `${(coverageRandProp / completed * 100).toFixed(1)}%`;
+        $('#meanRand').textContent = `${(coverageRandMean / completed * 100).toFixed(1)}%`;
+        
+        $('#biasConv').textContent = `${(Math.abs(biasConvProp + biasConvMean) / (2 * completed) * 100).toFixed(1)}%`;
+        $('#biasPropConv').textContent = `${(Math.abs(biasConvProp) / completed * 100).toFixed(1)}%`;
+        $('#biasMeanConv').textContent = `${(Math.abs(biasConvMean) / completed * 100).toFixed(1)}%`;
+        
+        $('#biasRand').textContent = `${(Math.abs(biasRandProp + biasRandMean) / (2 * completed) * 100).toFixed(1)}%`;
+        $('#biasPropRand').textContent = `${(Math.abs(biasRandProp) / completed * 100).toFixed(1)}%`;
+        $('#biasMeanRand').textContent = `${(Math.abs(biasRandMean) / completed * 100).toFixed(1)}%`;
+        
+        // Actualizar gráfico
+        updateChart(
+          coverageConvProp / completed * 100,
+          coverageConvMean / completed * 100,
+          coverageRandProp / completed * 100,
+          coverageRandMean / completed * 100
+        );
+        
+        status.textContent = `Simulando... ${completed}/${R} (${(progress * 100).toFixed(1)}%)`;
+        
+        if (completed < R) {
+          setTimeout(processNext, 10);
+        } else {
+          simulationRunning = false;
+          status.textContent = 'Simulación completada';
+        }
+      }
+      
+      // Procesar siguiente iteración
+      function processNext() {
+        // Simular muestreo por conveniencia (sesgado)
+        const pConv = pTrue * (0.7 + Math.random() * 0.3); // Sesgo en proporción
+        const meanConv = meanTrue * (0.8 + Math.random() * 0.4); // Sesgo en media
+        
+        // Calcular intervalos de confianza para conveniencia
+        const sePConv = Math.sqrt(pConv * (1 - pConv) / n);
+        const icPConvLo = pConv - Z * sePConv;
+        const icPConvHi = pConv + Z * sePConv;
+        
+        const seMeanConv = 2482200 / Math.sqrt(n); // Usar desviación estándar conocida
+        const icMeanConvLo = meanConv - Z * seMeanConv;
+        const icMeanConvHi = meanConv + Z * seMeanConv;
+        
+        // Verificar cobertura para conveniencia
+        if (pTrue >= icPConvLo && pTrue <= icPConvHi) coverageConvProp++;
+        if (meanTrue >= icMeanConvLo && meanTrue <= icMeanConvHi) coverageConvMean++;
+        
+        // Calcular sesgo para conveniencia
+        biasConvProp += Math.abs(pConv - pTrue);
+        biasConvMean += Math.abs(meanConv - meanTrue);
+        
+        // Simular muestreo aleatorio (no sesgado)
+        const pRand = pTrue + (Math.random() - 0.5) * 0.1; // Pequeña variación aleatoria
+        const meanRand = meanTrue + (Math.random() - 0.5) * 500000; // Pequeña variación aleatoria
+        
+        // Calcular intervalos de confianza para aleatorio
+        const sePRand = Math.sqrt(pRand * (1 - pRand) / n);
+        const icPRandLo = pRand - Z * sePRand;
+        const icPRandHi = pRand + Z * sePRand;
+        
+        const seMeanRand = 2482200 / Math.sqrt(n);
+        const icMeanRandLo = meanRand - Z * seMeanRand;
+        const icMeanRandHi = meanRand + Z * seMeanRand;
+        
+        // Verificar cobertura para aleatorio
+        if (pTrue >= icPRandLo && pTrue <= icPRandHi) coverageRandProp++;
+        if (meanTrue >= icMeanRandLo && meanTrue <= icMeanRandHi) coverageRandMean++;
+        
+        // Calcular sesgo para aleatorio
+        biasRandProp += Math.abs(pRand - pTrue);
+        biasRandMean += Math.abs(meanRand - meanTrue);
+        
+        completed++;
+        updateUI();
+      }
+      
+      // Iniciar la simulación
+      processNext();
+    }
+    
+    // Actualizar gráfico de simulación
+    function updateChart(convProp, convMean, randProp, randMean) {
+      const canvas = $('#simulationChart');
+      const ctx = canvas.getContext('2d');
+      
+      // Destruir gráfico anterior si existe
+      if (simulationChart) {
+        simulationChart.destroy();
+      }
+      
+      simulationChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Conveniencia - Proporción', 'Conveniencia - Media', 'Aleatorio - Proporción', 'Aleatorio - Media'],
+          datasets: [{
+            label: 'Cobertura (%)',
+            data: [convProp, convMean, randProp, randMean],
+            backgroundColor: [
+              'rgba(255, 71, 87, 0.7)',
+              'rgba(255, 71, 87, 0.7)',
+              'rgba(0, 180, 216, 0.7)',
+              'rgba(0, 180, 216, 0.7)'
+            ],
+            borderColor: [
+              'rgb(255, 71, 87)',
+              'rgb(255, 71, 87)',
+              'rgb(0, 180, 216)',
+              'rgb(0, 180, 216)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                color: '#a6b4e6'
+              },
+              grid: {
+                color: 'rgba(166, 180, 230, 0.1)'
+              }
+            },
+            x: {
+              ticks: {
+                color: '#a6b4e6'
+              },
+              grid: {
+                color: 'rgba(166, 180, 230, 0.1)'
+              }
             }
-            
-            btnSiguiente.addEventListener('click', function() {
-                if (indiceActual < diapositivas.length - 1) {
-                    indiceActual++;
-                    mostrarDiapositiva(indiceActual);
-                }
-            });
-            
-            btnAnterior.addEventListener('click', function() {
-                if (indiceActual > 0) {
-                    indiceActual--;
-                    mostrarDiapositiva(indiceActual);
-                }
-            });
-            
-            // Navegación con teclado
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowRight' || e.key === ' ') {
-                    if (indiceActual < diapositivas.length - 1) {
-                        indiceActual++;
-                        mostrarDiapositiva(indiceActual);
-                    }
-                } else if (e.key === 'ArrowLeft') {
-                    if (indiceActual > 0) {
-                        indiceActual--;
-                        mostrarDiapositiva(indiceActual);
-                    }
-                }
-            });
-        });
-    </script>
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: '#eaf0ff'
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(18, 26, 51, 0.9)',
+              titleColor: '#eaf0ff',
+              bodyColor: '#eaf0ff'
+            }
+          }
+        }
+      });
+    }
+    
+    // Reiniciar simulación
+    function resetSimulation() {
+      if (simulationRunning) return;
+      
+      // Reiniciar estadísticas
+      $('#coverageConv').textContent = '0%';
+      $('#propConv').textContent = '0%';
+      $('#meanConv').textContent = '0%';
+      
+      $('#coverageRand').textContent = '0%';
+      $('#propRand').textContent = '0%';
+      $('#meanRand').textContent = '0%';
+      
+      $('#biasConv').textContent = '0%';
+      $('#biasPropConv').textContent = '0%';
+      $('#biasMeanConv').textContent = '0%';
+      
+      $('#biasRand').textContent = '0%';
+      $('#biasPropRand').textContent = '0%';
+      $('#biasMeanRand').textContent = '0%';
+      
+      $('#simulationStatus').textContent = 'Listo para ejecutar';
+      
+      // Reiniciar gráfico
+      if (simulationChart) {
+        simulationChart.destroy();
+        simulationChart = null;
+      }
+    }
+
+    // Progreso y activación
+    const progress = $('#progress');
+    function go(n){
+      if (n === idx) return; // Si es la misma diapositiva, no hacer nada
+      
+      const oldIdx = idx;
+      idx = Math.max(0, Math.min(slides.length-1, n));
+      
+      // Marcar la diapositiva actual como saliente
+      if (slides[oldIdx]) {
+        slides[oldIdx].classList.remove('active');
+        slides[oldIdx].classList.add('exiting');
+        
+        // Quitar clase visible de todos los steps
+        $$('.step', slides[oldIdx]).forEach(el => el.classList.remove('visible'));
+      }
+      
+      // Mostrar la nueva diapositiva
+      setTimeout(() => {
+        if (slides[oldIdx]) {
+          slides[oldIdx].classList.remove('exiting');
+        }
+        
+        slides[idx].classList.add('active');
+        location.hash = `#${idx+1}`;
+        progress.style.transform = `scaleX(${idx/(slides.length-1)})`;
+        
+        // Revelado incremental de .step
+        const steps = $$('.step', slides[idx]);
+        steps.forEach((el, k) => setTimeout(() => el.classList.add('visible'), 150*(k+1)));
+        
+        // Inicializar simulación si estamos en la slide 11
+        if (idx === 10) {
+          // Asignar eventos a los botones de simulación
+          $('#runSimulation').addEventListener('click', runSimulation);
+          $('#resetSimulation').addEventListener('click', resetSimulation);
+        }
+      }, 400);
+    }
+
+    // Inicialización
+    window.addEventListener('load', () => {
+      createParticles();
+      go(fromHash());
+    });
+    
+    window.addEventListener('hashchange', () => go(fromHash()));
+  </script>
 </body>
 </html>
