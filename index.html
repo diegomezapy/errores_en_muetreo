@@ -1,932 +1,1880 @@
-mejora esta version de una manera increible, piensa diferente sorprendeme
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Errores recurrentes en torno al tamaño muestral</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+        }
+        .slide {
+            width: 1280px;
+            height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-image: url('https://sfile.chatglm.cn/images-ppt/88ae15b94d1b.svg');
+            background-size: cover;
+            background-position: center;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(23, 43, 77, 0.9);
+            display: flex;
+        }
+        .left-content {
+            width: 60%;
+            padding-left: 70px;
+            padding-right: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .right-content {
+            width: 40%;
+            padding-left: 20px;
+            padding-right: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .title {
+            font-size: 60px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        .subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            color: #e0e0e0;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+        .authors {
+            font-size: 18px;
+            color: #bbdefb;
+            margin-bottom: 10px;
+        }
+        .date {
+            font-size: 16px;
+            color: #90caf9;
+        }
+        .key-point {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .key-point-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #90caf9;
+            margin-bottom: 5px;
+        }
+        .key-point-content {
+            font-size: 16px;
+            color: #ffffff;
+        }
+        .material-icons {
+            vertical-align: middle;
+            margin-right: 8px;
+            color: #90caf9;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="overlay">
+            <div class="left-content">
+                <h1 class="title">Errores recurrentes en torno al tamaño muestral y propuestas para evitarlos</h1>
+                <p class="subtitle">Un enfoque estadístico riguroso basado en simulación</p>
+                <p class="authors">Félix Alberto Ávalos Espinosa, Gustavo Ignacio Rivas Martínez, Jessica Andrea Correa Paredes, Julio Veloto</p>
+                <p class="date">9 de junio de 2025</p>
+            </div>
+            <div class="right-content">
+                <div class="key-point">
+                    <div class="key-point-title"><i class="material-icons">functions</i>Problema central</div>
+                    <div class="key-point-content">Desacople entre cálculo (asume aleatoriedad) y levantamiento (conveniencia, auto-selección)</div>
+                </div>
+                <div class="key-point">
+                    <div class="key-point-title"><i class="material-icons">science</i>Enfoque metodológico</div>
+                    <div class="key-point-content">Simulación comparativa entre muestreo aleatorio simple y por conveniencia</div>
+                </div>
+                <div class="key-point">
+                    <div class="key-point-title"><i class="material-icons">insights</i>Impacto evaluado</div>
+                    <div class="key-point-content">Cobertura empírica y sesgo relativo de estimadores</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Errores recurrentes en torno al tamaño muestral</title>
-
-  <!-- Tipografías -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-
-  <!-- MathJax para fórmulas -->
-  <script>
-    window.MathJax = {
-      tex: { 
-        inlineMath: [['$', '$'], ['\\(', '\\)']], 
-        displayMath: [['$$','$$'], ['\\[','\\]']],
-        macros: {
-          'p': 'p',
-          'hatp': '\\hat{p}',
-          'n': 'n',
-          'N': 'N',
-          'Z': 'Z',
-          'd': 'd',
-          's': 's',
-          'mu': '\\mu'
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción: Diseño estadístico riguroso</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-      },
-      svg: { fontCache: 'global' }
-    };
-  </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-
-  <!-- Chart.js para la visualización de la simulación -->
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
-  <style>
-    :root{
-      --primary:#0c1224;
-      --secondary:#111a34;
-      --accent:#ff6a00;
-      --accent-2:#00b4d8;
-      --text:#eaf0ff;
-      --muted:#a6b4e6;
-      --card:#121a33;
-      --ok:#2ed573;
-      --warn:#ffa502;
-      --bad:#ff4757;
-      --glow: rgba(255, 106, 0, 0.4);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:'Open Sans',sans-serif;
-      color:var(--text);
-      background:linear-gradient(135deg, var(--primary), var(--secondary));
-      overflow:hidden;
-      position: relative;
-    }
-
-    /* Efecto de partículas */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      animation: float 15s infinite linear;
-    }
-    @keyframes float {
-      0% { transform: translateY(0) translateX(0); opacity: 0; }
-      10% { opacity: 0.3; }
-      90% { opacity: 0.3; }
-      100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
-    }
-
-    /* Barra superior */
-    .topbar{
-      position:fixed; top:0; left:0; right:0; height:52px;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:0 16px;
-      background:rgba(10,14,30,.85); backdrop-filter: blur(10px);
-      border-bottom:1px solid rgba(255,255,255,.1);
-      z-index:1000;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px; font-family:'Montserrat',sans-serif
-    }
-    .brand .dot{width:12px; height:12px; border-radius:50%; background:var(--accent); box-shadow: 0 0 10px var(--glow);}
-    .brand .title{font-weight:700; letter-spacing:.3px; font-size: 1.1rem;}
-    .toolbar{display:flex; align-items:center; gap:8px}
-    .btn{
-      border:1px solid rgba(255,255,255,.18);
-      background:rgba(255,255,255,.08);
-      color:var(--text); padding:6px 12px; border-radius:8px;
-      cursor:pointer; font-size:.9rem; transition: all 0.3s ease;
-    }
-    .btn:hover{background:rgba(255,255,255,.15); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2);}
-    .index{
-      position:fixed; top:52px; left:0; right:0; height:6px;
-      background:linear-gradient(90deg,var(--accent),var(--accent-2));
-      transform-origin:left; transform:scaleX(0);
-      z-index:999;
-      box-shadow: 0 2px 10px rgba(255, 106, 0, 0.3);
-    }
-
-    /* Logo CLATSE */
-    .logo-clatse {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      width: 120px;
-      height: auto;
-      z-index: 1001;
-      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
-      transition: transform 0.3s ease;
-    }
-    .logo-clatse:hover {
-      transform: scale(1.05);
-    }
-
-    /* Contenedor de presentación */
-    .deck{height:100vh; width:100vw; position:relative; padding-top:58px; z-index: 1;}
-    .slide{
-      position:absolute; inset:58px 0 0 0;
-      padding:40px clamp(18px,5vw,56px);
-      opacity:0; pointer-events:none; transform: translateX(100vw);
-      transition:opacity 0.8s ease, transform 0.8s ease;
-      display:flex; flex-direction:column; gap:18px;
-      overflow-y: auto;
-    }
-    .slide.active{opacity:1; pointer-events:auto; transform: translateX(0);}
-    .slide.exiting{transform: translateX(-100vw); opacity: 0;}
-    .slide h1,.slide h2,.slide h3{font-family:'Montserrat',sans-serif; margin:0}
-    .lead{font-size:1.1rem; color:var(--muted)}
-
-    .card{
-      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.06));
-      border:1px solid rgba(255,255,255,.15);
-      border-radius:14px; padding:16px 18px;
-      box-shadow:0 8px 25px rgba(0,0,0,0.3);
-      transition: transform 0.4s ease, box-shadow 0.4s ease, z-index 0.4s;
-      transform-origin: center;
-      position: relative;
-      z-index: 1;
-    }
-    .card:hover {
-      transform: scale(1.08);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-      z-index: 10;
-    }
-    .card.accent{border-left:5px solid var(--accent); box-shadow: 0 8px 25px rgba(255, 106, 0, 0.2);}
-    .card.ok{border-left:5px solid var(--ok); background:rgba(46,213,115,.1); box-shadow: 0 8px 25px rgba(46, 213, 115, 0.2);}
-    .card.warn{border-left:5px solid var(--warn); background:rgba(255,165,2,.09); box-shadow: 0 8px 25px rgba(255, 165, 2, 0.2);}
-    .card.bad{border-left:5px solid var(--bad); background:rgba(255,71,87,.1); box-shadow: 0 8px 25px rgba(255, 71, 87, 0.2);}
-
-    .grid{display:grid; gap:16px}
-    .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-    @media(max-width:1024px){.grid.cols-2,.grid.cols-3{grid-template-columns:1fr}}
-
-    .kpi{
-      display:flex; align-items:baseline; gap:10px; padding:12px 14px;
-      border-radius:12px; background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.15);
-      transition: all 0.4s ease;
-      transform-origin: center;
-      position: relative;
-      z-index: 1;
-    }
-    .kpi:hover {
-      transform: scale(1.08);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      z-index: 10;
-    }
-    .kpi .v{font-size:1.8rem; font-weight:700}
-    .kpi .t{font-size:.9rem; color:var(--muted)}
-    .hl{color:var(--accent-2); font-weight:700; text-shadow: 0 0 10px rgba(0, 180, 216, 0.3);}
-
-    .bullets{margin:0; padding-left:18px}
-    .bullets li{margin:8px 0; transition: transform 0.3s ease;}
-    .bullets li:hover {
-      transform: translateX(10px);
-    }
-    .step{opacity:0; transform:translateY(10px); transition:all 0.5s ease}
-    .step.visible{opacity:1; transform:translateY(0)}
-
-    .formula{
-      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace;
-      background:rgba(0,0,0,.4);
-      border-left:4px solid var(--accent);
-      border-radius:8px; padding:12px; overflow:auto;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      transition: transform 0.4s ease;
-      transform-origin: center;
-      position: relative;
-      z-index: 1;
-    }
-    .formula:hover {
-      transform: scale(1.03);
-      z-index: 10;
-    }
-
-    .footer{
-      margin-top:auto; display:flex; justify-content:space-between; align-items:center;
-      color:var(--muted); font-size:.9rem
-    }
-    .chip{
-      padding:5px 9px; border-radius:999px; background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-      transition: all 0.3s ease;
-    }
-    .chip:hover {
-      background:rgba(255,255,255,.12);
-      transform: scale(1.08);
-    }
-
-    /* Navegación inferior */
-    .nav{
-      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-      display:flex; gap:10px; z-index:1000;
-    }
-    .nav .btn{padding:10px 16px; font-weight:600; background:rgba(10,14,30,.8); backdrop-filter: blur(10px);}
-
-    /* Panel índice lateral */
-    .toc{
-      position:fixed; right:12px; top:64px; width:280px; max-height:70vh; overflow:auto;
-      background:rgba(9,12,24,.85); backdrop-filter: blur(10px);
-      border:1px solid rgba(255,255,255,.2); border-radius:12px;
-      padding:10px; display:none; z-index:1000;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-    .toc.show{display:block; animation: fadeIn 0.3s ease;}
-    .toc a{display:block; padding:8px 10px; color:var(--text); text-decoration:none; font-size:.95rem; border-radius:8px; transition: all 0.2s ease;}
-    .toc a:hover{background:rgba(255,255,255,.1); transform: translateX(-5px);}
-    .toc .num{opacity:.7; font-variant-numeric:tabular-nums; margin-right:6px}
-
-    /* Numeración */
-    .numtag{
-      position:absolute; top:10px; right:18px; font-size:.9rem; color:#c9d2ff88
-    }
-
-    /* Animaciones personalizadas */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    
-    @keyframes slideInFromLeft {
-      from { transform: translateX(-30px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    
-    @keyframes slideInFromRight {
-      from { transform: translateX(30px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-    
-    .slide-in-left {
-      animation: slideInFromLeft 0.6s ease;
-    }
-    
-    .slide-in-right {
-      animation: slideInFromRight 0.6s ease;
-    }
-
-    /* Gráfico mejorado */
-    .chart-container {
-      position: relative;
-      height: 260px;
-      width: 100%;
-      transition: transform 0.4s ease;
-      transform-origin: center;
-    }
-    .chart-container:hover {
-      transform: scale(1.03);
-    }
-
-    /* Modo impresión: una diapositiva por página */
-    @media print{
-      body{overflow:visible}
-      .topbar,.index,.nav,.toc,.logo-clatse{display:none !important}
-      .deck{padding-top:0}
-      .slide{position:static; opacity:1; transform:none; page-break-after:always; min-height:100vh}
-    }
-  </style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            padding: 40px 70px 20px;
+            background-color: #1a4f8a;
+        }
+        .title {
+            font-size: 40px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content {
+            display: flex;
+            flex-grow: 1;
+            padding: 0 70px 40px;
+        }
+        .left-content {
+            width: 55%;
+            padding-right: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .right-content {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .stat-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+        }
+        .stat-icon {
+            margin-right: 15px;
+            color: #1a4f8a;
+            font-size: 28px;
+        }
+        .stat-content {
+            flex-grow: 1;
+        }
+        .stat-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a4f8a;
+            margin-bottom: 5px;
+        }
+        .stat-description {
+            font-size: 16px;
+            color: #424242;
+        }
+        .highlight {
+            color: #e53935;
+            font-weight: 600;
+        }
+        .image-container {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .paradox-box {
+            background-color: #ffebee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .paradox-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #c62828;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .paradox-title .material-icons {
+            margin-right: 10px;
+            color: #c62828;
+        }
+        .paradox-description {
+            font-size: 16px;
+            color: #424242;
+        }
+        .impact-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #1a4f8a;
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .impact-text {
+            font-size: 18px;
+            color: #1a4f8a;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-  <!-- Logo CLATSE -->
-  <img src="https://clatse.com/wp-content/uploads/2025/02/CLATSE-LOGO-1.png" alt="CLATSE Logo" class="logo-clatse">
-
-  <!-- Efecto de partículas -->
-  <div class="particles" id="particles"></div>
-
-  <!-- Barra superior -->
-  <div class="topbar">
-    <div class="brand">
-      <div class="dot"></div>
-      <div class="title">Errores en Tamaño Muestral</div>
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Diseño estadístico riguroso: contexto y paradoja</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="stat-box">
+                    <i class="material-icons stat-icon">trending_up</i>
+                    <div class="stat-content">
+                        <div class="stat-title">Producción científica actual</div>
+                        <div class="stat-description">Más de <span class="highlight">3.3 millones</span> de artículos publicados en 2022 (NSB, 2023)</div>
+                    </div>
+                </div>
+                
+                <div class="stat-box">
+                    <i class="material-icons stat-icon">history</i>
+                    <div class="stat-content">
+                        <div class="stat-title">Diseños estadísticos transformadores</div>
+                        <div class="stat-description">
+                            • British Doctors Study (1954): tabaquismo y cáncer<br>
+                            • Framingham Heart Study (1948): factores cardiovasculares<br>
+                            • Estudios VIH (década 1980): vías de transmisión<br>
+                            • Ensayos vacunas COVID-19 (2020): eficacia y seguridad
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="paradox-box">
+                    <div class="paradox-title">
+                        <i class="material-icons">sync_problem</i>
+                        Paradoja actual
+                    </div>
+                    <div class="paradox-description">
+                        Persistencia de <span class="highlight">errores metodológicos básicos</span> en el cálculo y justificación del tamaño muestral, a pesar de la amplia disponibilidad de recursos teóricos
+                    </div>
+                </div>
+                
+                <div class="impact-box">
+                    <p class="impact-text">Impacto directo en la validez estadística: coberturas colapsadas, sesgos sistemáticos y conclusiones engañosas</p>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/871dd5bdd383.png" alt="Inferencia estadística y distribución normal">
+                </div>
+                
+                <div class="stat-box">
+                    <i class="material-icons stat-icon">error_outline</i>
+                    <div class="stat-content">
+                        <div class="stat-title">Problema central</div>
+                        <div class="stat-description">Desacople entre <span class="highlight">cálculo</span> (asume aleatoriedad) y <span class="highlight">levantamiento</span> (conveniencia, auto-selección)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="toolbar">
-      <button class="btn" id="btnPrev" aria-label="Anterior">◀</button>
-      <button class="btn" id="btnNext" aria-label="Siguiente">▶</button>
-      <button class="btn" id="btnToc" aria-label="Índice">Índice</button>
-      <button class="btn" id="btnPrint" aria-label="Imprimir">Imprimir</button>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 1: Aplicación indebida de fórmulas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            padding: 40px 70px 20px;
+            background-color: #1a4f8a;
+        }
+        .title {
+            font-size: 40px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content {
+            display: flex;
+            flex-grow: 1;
+            padding: 0 70px 40px;
+        }
+        .left-content {
+            width: 55%;
+            padding-right: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .right-content {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .formula-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .formula {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1a4f8a;
+            margin: 10px 0;
+        }
+        .formula-description {
+            font-size: 16px;
+            color: #424242;
+            margin-top: 10px;
+            text-align: left;
+        }
+        .valid-box {
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .valid-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2e7d32;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .valid-title .material-icons {
+            margin-right: 10px;
+            color: #2e7d32;
+        }
+        .valid-list {
+            list-style-type: none;
+        }
+        .valid-item {
+            font-size: 16px;
+            color: #424242;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .valid-item .material-icons {
+            font-size: 16px;
+            margin-right: 8px;
+            color: #2e7d32;
+        }
+        .error-box {
+            background-color: #ffebee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .error-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #c62828;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .error-title .material-icons {
+            margin-right: 10px;
+            color: #c62828;
+        }
+        .error-description {
+            font-size: 16px;
+            color: #424242;
+        }
+        .image-container {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .highlight {
+            color: #e53935;
+            font-weight: 600;
+        }
+        .criteria-box {
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .criteria-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a4f8a;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .criteria-title .material-icons {
+            margin-right: 10px;
+            color: #1a4f8a;
+        }
+        .criteria-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .criteria-item {
+            flex: 1 0 45%;
+            display: flex;
+            align-items: flex-start;
+        }
+        .criteria-icon {
+            color: #1a4f8a;
+            margin-right: 8px;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .criteria-text {
+            font-size: 16px;
+            color: #424242;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Error 1: Aplicación indebida de fórmulas de muestreo probabilístico</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="formula-box">
+                    <div class="formula">n = Z²p(1-p)/d²</div>
+                    <div class="formula-description">
+                        <strong>n:</strong> tamaño de muestra<br>
+                        <strong>Z:</strong> valor crítico (ej. 1,96 para 95%)<br>
+                        <strong>p:</strong> proporción esperada<br>
+                        <strong>d:</strong> margen de error tolerado
+                    </div>
+                </div>
+                
+                <div class="formula-box">
+                    <div class="formula">n<sub>ajustada</sub> = n₀·N/(n₀ + (N-1))</div>
+                    <div class="formula-description">
+                        <strong>n₀:</strong> tamaño muestral inicial<br>
+                        <strong>N:</strong> tamaño poblacional<br>
+                        <strong>Aplicable cuando:</strong> n₀ > 5-10% de N
+                    </div>
+                </div>
+                
+                <div class="valid-box">
+                    <div class="valid-title">
+                        <i class="material-icons">check_circle</i>
+                        Ámbitos de validez
+                    </div>
+                    <ul class="valid-list">
+                        <li class="valid-item"><i class="material-icons">arrow_right</i>Muestreo aleatorio simple (MAS)</li>
+                        <li class="valid-item"><i class="material-icons">arrow_right</i>Muestreo estratificado con selección aleatoria</li>
+                        <li class="valid-item"><i class="material-icons">arrow_right</i>Cada unidad tiene probabilidad conocida y distinta de cero</li>
+                    </ul>
+                </div>
+                
+                <div class="error-box">
+                    <div class="error-title">
+                        <i class="material-icons">error</i>
+                        Problema metodológico
+                    </div>
+                    <div class="error-description">
+                        Se aplica la fórmula en estudios con <span class="highlight">muestreo no probabilístico</span> (conveniencia, bola de nieve, auto-selección). Un n calculado correctamente no garantiza validez si el procedimiento de selección es incorrecto.
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/c5d83452ce18.jpg" alt="Tipos de muestreo: probabilístico vs no probabilístico">
+                </div>
+                
+                <div class="criteria-box">
+                    <div class="criteria-title">
+                        <i class="material-icons">rule</i>
+                        Criterios técnicos para aplicación
+                    </div>
+                    <div class="criteria-list">
+                        <div class="criteria-item">
+                            <i class="material-icons criteria-icon">check</i>
+                            <div class="criteria-text">Diseño probabilístico</div>
+                        </div>
+                        <div class="criteria-item">
+                            <i class="material-icons criteria-icon">check</i>
+                            <div class="criteria-text">Variable dicotómica o continua</div>
+                        </div>
+                        <div class="criteria-item">
+                            <i class="material-icons criteria-icon">check</i>
+                            <div class="criteria-text">Marco muestral completo</div>
+                        </div>
+                        <div class="criteria-item">
+                            <i class="material-icons criteria-icon">check</i>
+                            <div class="criteria-text">Selección aleatoria</div>
+                        </div>
+                        <div class="criteria-item">
+                            <i class="material-icons criteria-icon">close</i>
+                            <div class="criteria-text">Muestreo por conveniencia</div>
+                        </div>
+                        <div class="criteria-item">
+                            <i class="material-icons criteria-icon">close</i>
+                            <div class="criteria-text">Auto-selección</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="index" id="progress"></div>
+</body>
+</html>
 
-  <!-- Índice lateral -->
-  <aside class="toc" id="toc"></aside>
-
-  <!-- Presentación -->
-  <main class="deck" id="deck">
-    <!-- 1. Portada -->
-    <section class="slide active" data-id="1" data-title="Portada">
-      <span class="numtag">1</span>
-      <h1 style="font-size:clamp(26px,4.4vw,52px); line-height:1.08; text-shadow: 0 0 20px rgba(255, 106, 0, 0.3);">
-        Errores recurrentes en torno al tamaño muestral
-      </h1>
-      <h2 style="color:var(--accent); font-size:clamp(18px,2.2vw,26px); font-weight:700; text-shadow: 0 0 15px rgba(255, 106, 0, 0.3);">Propuestas para evitarlos</h2>
-      <div class="grid cols-2">
-        <div class="card" style="animation: slideInFromLeft 0.7s ease;">
-          <div class="lead">Autores</div>
-          <div style="margin-top:6px">
-            Félix Alberto Ávalos Espinosa<br/>
-            Gustavo Ignacio Rivas Martínez<br/>
-            Jessica Andrea Correa Paredes<br/>
-            Julio Veloto
-          </div>
-          <div style="margin-top:10px; color:var(--muted)">9 de junio de 2025</div>
-          <div class="chip pulse" style="margin-top:10px">CLATSE — XVICUADOR 2025</div>
-        </div>
-        <div class="card" style="animation: slideInFromRight 0.7s ease;">
-          <div class="lead">Resumen</div>
-          <p style="margin-top:6px">
-            Se analizan dos errores metodológicos frecuentes, la aplicación de fórmulas de muestreo probabilístico en diseños no probabilísticos y
-            la incongruencia entre el cálculo muestral y la naturaleza de la variable. Se proponen lineamientos, un procedimiento para escalas Likert,
-            y una estrategia de muestreo aleatorio con población no delimitada.
-          </p>
-          <div class="kpi"><span class="v">3,3&nbsp;millones</span><span class="t">artículos publicados, 2022</span></div>
-        </div>
-      </div>
-      <div class="footer">
-        <span class="chip">Contexto y alcances</span>
-        <span>↑↓ teclas, clic o botones para navegar</span>
-      </div>
-    </section>
-
-    <!-- 2. Introducción -->
-    <section class="slide" data-id="2" data-title="Introducción y motivación">
-      <span class="numtag">2</span>
-      <h2>Introducción y motivación</h2>
-      <div class="grid cols-2">
-        <div class="card">
-          <ul class="bullets">
-            <li class="step">Crecimiento sostenido de la producción científica. En 2022 se superaron 3,3 millones de artículos.</li>
-            <li class="step">La estadística sustenta avances en ciencias naturales, sociales, salud y aplicaciones.</li>
-            <li class="step">Persisten errores metodológicos básicos que comprometen validez y generalización.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="lead">Casos emblemáticos</div>
-          <ul class="bullets" style="margin-top:6px">
-            <li class="step">British Doctors Study, cohorte y riesgo de cáncer de pulmón.</li>
-            <li class="step">Framingham Study, factores de riesgo cardiovascular.</li>
-            <li class="step">Ensayos de vacunas COVID-19, diseños aleatorizados.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer">
-        <span class="chip">Rigor metodológico y diseño</span>
-        <span>Selección correcta del diseño y del parámetro</span>
-      </div>
-    </section>
-
-    <!-- 3. Error 1 -->
-    <section class="slide" data-id="3" data-title="Error 1: fórmulas en diseños no probabilísticos">
-      <span class="numtag">3</span>
-      <h2>Error 1, aplicación indebida de fórmulas</h2>
-      <div class="grid cols-2">
-        <div class="card bad">
-          <div class="lead">Problema</div>
-          <p style="margin-top:6px">
-            Se calcula $n$ con fórmulas que suponen muestreo probabilístico, pero se levanta la muestra por conveniencia, bola de nieve o auto-selección.
-          </p>
-          <div class="formula">
-            Proporción: $$n \;=\; \frac{Z^2\,p\,(1-p)}{d^2} \quad\text{con}\quad n_{aj}\;=\;\frac{n_0\,N}{n_0 + (N-1)},\; n_0=\frac{Z^2 p (1-p)}{d^2}$$
-          </div>
-        </div>
-        <div class="card">
-          <div class="lead">Ámbitos de validez</div>
-          <ul class="bullets" style="margin-top:6px">
-            <li class="step">Muestreo aleatorio simple.</li>
-            <li class="step">Muestreo estratificado con selección aleatoria.</li>
-          </ul>
-          <div class="lead" style="margin-top:12px">Implicancias</div>
-          <ul class="bullets">
-            <li class="step">Sin probabilidades de inclusión conocidas no hay inferencia válida.</li>
-            <li class="step">Un $n$ correcto no compensa un diseño incorrecto.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer">
-        <span class="chip">Recomendación</span>
-        <span>Documentar marco muestral y mecanismo de selección</span>
-      </div>
-    </section>
-
-    <!-- 4. Error 2 -->
-    <section class="slide" data-id="4" data-title="Error 2: parámetro y variable no corresponden">
-      <span class="numtag">4</span>
-      <h2>Error 2, inconsistencia entre parámetro y variable</h2>
-      <div class="grid cols-2">
-        <div class="card warn">
-          <div class="lead">Dos manifestaciones</div>
-          <ul class="bullets" style="margin-top:6px">
-            <li class="step">Omisión del parámetro que justifica el cálculo, por ejemplo uso genérico de $p=0{,}5$ sin respaldo.</li>
-            <li class="step">Fórmula inadecuada al tipo de variable, por ejemplo usar fórmula de proporciones con escalas Likert.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="lead">Formulaciones correctas</div>
-          <div class="formula">Proporción: $$n \;=\; \frac{Z^2\,p\,(1-p)}{d^2}$$</div>
-          <div class="formula">Media: $$n \;=\; \frac{Z^2\,s^2}{d^2}$$</div>
-          <ul class="bullets">
-            <li class="step">Justificar $p$ o $s$ vía piloto, literatura o datos previos.</li>
-            <li class="step">Adoptar el mayor $n$ si hay múltiples variables objetivo.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer">
-        <span class="chip">Correspondencia</span>
-        <span>Fórmula alineada al nivel de medición</span>
-      </div>
-    </section>
-
-    <!-- 5. Escalas Likert -->
-    <section class="slide" data-id="5" data-title="Escalas Likert: dos rutas">
-      <span class="numtag">5</span>
-      <h2>Escalas Likert, dos rutas metodológicas</h2>
-      <div class="grid cols-2">
-        <div class="card ok">
-          <div class="lead">A) Dicotomizar con criterio</div>
-          <ul class="bullets" style="margin-top:6px">
-            <li class="step">Agrupar 1–3 como 0 y 4–5 como 1, definir semántica antes del levantamiento.</li>
-            <li class="step">Piloto de 30–50 sujetos, obtener $\hat p$.</li>
-            <li class="step">Calcular $$n \;=\; \dfrac{Z^2 \hat p (1-\hat p)}{d^2}$$ con ajuste por población finita si corresponde.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="lead">B) Mantener ordinalidad</div>
-          <ul class="bullets" style="margin-top:6px">
-            <li class="step">Evitar fórmulas para medias si el análisis será no paramétrico.</li>
-            <li class="step">Planificar pruebas como Mann–Whitney o Kruskal–Wallis.</li>
-            <li class="step">Justificar $n$ con literatura específica del método o estudios similares.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer">
-        <span class="chip">Validez</span>
-        <span>Elección coherente con el análisis previsto</span>
-      </div>
-    </section>
-
-    <!-- 6. Población no delimitada -->
-    <section class="slide" data-id="6" data-title="Población no delimitada: muestreo aleatorio operativo">
-      <span class="numtag">6</span>
-      <h2>Muestreo aleatorio con población no delimitada</h2>
-      <div class="card accent">
-        <div class="lead">Estrategia basada en orden de llegada</div>
-        <ol class="bullets" style="margin-top:6px; padding-left:22px">
-          <li class="step">Definir $N^*$ como máximo operativo, por ejemplo los primeros 400 casos.</li>
-          <li class="step">Calcular $n$ requerido con fórmula de proporción o media.</li>
-          <li class="step">Seleccionar aleatoriamente $n$ números únicos en $\{1,\dots,N^*\}$.</li>
-          <li class="step">Enumerar sujetos por llegada e incluir solo posiciones seleccionadas.</li>
-        </ol>
-      </div>
-      <div class="card">
-        <ul class="bullets">
-          <li class="step">Garantiza probabilidad igual para cada unidad dentro del marco operativo.</li>
-          <li class="step">La inferencia se circunscribe a los primeros $N^*$ casos definidos.</li>
-          <li class="step">Documentar supuestos, agotamiento potencial y logística.</li>
-        </ul>
-      </div>
-      <div class="footer">
-        <span class="chip">Aplicabilidad</span>
-        <span>Convocatorias abiertas, flujos progresivos, poblaciones móviles</span>
-      </div>
-    </section>
-
-    <!-- 7. Simulación: diseño -->
-    <section class="slide" data-id="7" data-title="Simulación: diseño y parámetros">
-      <span class="numtag">7</span>
-      <h2>Simulación, diseño y parámetros</h2>
-      <div class="grid cols-2">
-        <div class="card">
-          <div class="lead">Población y parámetros</div>
-          <ul class="bullets" style="margin-top:6px">
-            <li class="step">Nómina sector público, abril 2025, $N=279\,152$.</li>
-            <li class="step">Proporción de mujeres, $P=0{,}52$.</li>
-            <li class="step">Media salarial, $\mu=7\,077\,586$ Gs, $s\approx 2\,482\,200$ Gs.</li>
-          </ul>
-          <div class="lead" style="margin-top:10px">Tamaños</div>
-          <ul class="bullets">
-            <li class="step">Proporción, $n=384$ con $p=0{,}5$, $d=0{,}05$.</li>
-            <li class="step">Media, $n\approx 263$ con $d=300\,000$.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="lead">Esquemas y métricas</div>
-          <ul class="bullets" style="margin-top:6px">
-            <li class="step">Esquemas: aleatorio simple sin reemplazo, conveniencia en 5 instituciones grandes.</li>
-            <li class="step">Réplicas: 10 000 por esquema.</li>
-            <li class="step">Métricas: cobertura empírica del IC 95 por ciento, sesgo relativo.</li>
-          </ul>
-          <div class="kpi"><span class="v">10&nbsp;000</span><span class="t">réplicas por escenario</span></div>
-        </div>
-      </div>
-      <div class="footer">
-        <span class="chip">Evaluación</span>
-        <span>Impacto del diseño en precisión e inferencia</span>
-      </div>
-    </section>
-
-    <!-- 8. Simulación: resultados con gráfico -->
-    <section class="slide" data-id="8" data-title="Resultados: cobertura y sesgo">
-      <span class="numtag">8</span>
-      <h2>Resultados, cobertura y sesgo</h2>
-      <div class="grid cols-2">
-        <div class="card">
-          <div class="chart-container">
-            <canvas id="chartResultados" aria-label="Cobertura por método y parámetro"></canvas>
-          </div>
-        </div>
-        <div class="card">
-          <table style="width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums">
-            <thead>
-              <tr>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid rgba(255,255,255,.2)">Método</th>
-                <th style="text-align:right; padding:8px; border-bottom:1px solid rgba(255,255,255,.2)">Parámetro</th>
-                <th style="text-align:right; padding:8px; border-bottom:1px solid rgba(255,255,255,.2)">Cobertura</th>
-                <th style="text-align:right; padding:8px; border-bottom:1px solid rgba(255,255,255,.2)">Sesgo relativo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="padding:8px">Conveniencia</td>
-                <td style="padding:8px; text-align:right">Proporción</td>
-                <td style="padding:8px; text-align:right">2,86 %</td>
-                <td style="padding:8px; text-align:right">−17,17 %</td>
-              </tr>
-              <tr>
-                <td style="padding:8px">Conveniencia</td>
-                <td style="padding:8px; text-align:right">Media</td>
-                <td style="padding:8px; text-align:right">2,61 %</td>
-                <td style="padding:8px; text-align:right">+10,30 %</td>
-              </tr>
-              <tr>
-                <td style="padding:8px">Aleatorio</td>
-                <td style="padding:8px; text-align:right">Proporción</td>
-                <td style="padding:8px; text-align:right">94,72 %</td>
-                <td style="padding:8px; text-align:right">≈ 0,03 %</td>
-              </tr>
-              <tr>
-                <td style="padding:8px">Aleatorio</td>
-                <td style="padding:8px; text-align:right">Media</td>
-                <td style="padding:8px; text-align:right">93,94 %</td>
-                <td style="padding:8px; text-align:right">≈ 0,00 %</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="lead" style="margin-top:10px">Conclusión empírica</div>
-          <p style="margin-top:4px">
-            La cobertura colapsa bajo conveniencia, incluso con $n$ calculado, mientras que el diseño aleatorio preserva niveles de cobertura cercanos a 95 por ciento.
-          </p>
-        </div>
-      </div>
-      <div class="footer">
-        <span class="chip">Evidencia</span>
-        <span>El diseño de muestreo determina la validez inferencial</span>
-      </div>
-    </section>
-
-    <!-- 9. Pautas -->
-    <section class="slide" data-id="9" data-title="Pautas prácticas">
-      <span class="numtag">9</span>
-      <h2>Pautas prácticas para evitar errores</h2>
-      <div class="grid cols-3">
-        <div class="card">
-          <ul class="bullets">
-            <li class="step">Definir con precisión la variable principal y el parámetro de interés.</li>
-            <li class="step">Justificar $p$, $s$, $d$ y nivel de confianza con evidencia.</li>
-            <li class="step">Utilizar el mayor $n$ entre variables críticas.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <ul class="bullets">
-            <li class="step">Alinear fórmula con el nivel de medición de la variable.</li>
-            <li class="step">Ajustar por población finita cuando $n/N \gtrsim 5$–10 por ciento.</li>
-            <li class="step">Describir el mecanismo de selección y el marco muestral.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <ul class="bullets">
-            <li class="step">En estudios exploratorios, explicitar que no se generaliza.</li>
-            <li class="step">Para Likert, dicotomizar o justificar análisis ordinal.</li>
-            <li class="step">Documentar limitaciones operativas y su impacto.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer">
-        <span class="chip">Buenas prácticas</span>
-        <span>Transparencia, coherencia, replicabilidad</span>
-      </div>
-    </section>
-
-    <!-- 10. Cierre -->
-    <section class="slide" data-id="10" data-title="Cierre y mensajes finales">
-      <span class="numtag">10</span>
-      <h2>Cierre</h2>
-      <div class="card ok">
-        <ul class="bullets">
-          <li class="step">Calcular $n$ no basta. El diseño debe ser probabilístico si se desea inferir.</li>
-          <li class="step">El ajuste metodológico depende de la variable y del objetivo inferencial.</li>
-          <li class="step">La estrategia operativa permite muestreo aleatorio en escenarios sin población cerrada.</li>
-        </ul>
-      </div>
-      <div class="footer">
-        <span class="chip pulse">Gracias</span>
-        <span>Preguntas y comentarios</span>
-      </div>
-    </section>
-
-    <!-- 11. Referencias clave -->
-    <section class="slide" data-id="11" data-title="Referencias clave">
-      <span class="numtag">11</span>
-      <h2>Referencias clave</h2>
-      <div class="card">
-        <ul class="bullets" style="columns:2; column-gap:28px">
-          <li>Ávalos Espinosa, Rivas Martínez, Correa Paredes, Veloto. Errores recurrentes en torno al tamaño muestral, 2025.</li>
-          <li>Cochran, W. G. Sampling Techniques, 3 ed., 1977.</li>
-          <li>Norman, G. Likert scales and the "laws" of statistics, 2010.</li>
-          <li>Sullivan y Artino. Interpreting Likert-type data, 2013.</li>
-          <li>NSB, Publications output 2023.</li>
-          <li>Estudios clásicos y recientes enumerados en el artículo y webinar.</li>
-        </ul>
-      </div>
-      <div class="footer">
-        <span class="chip">Fuente</span>
-        <span>Artículo y webinar, selección de citas fundamentales</span>
-      </div>
-    </section>
-  </main>
-
-  <!-- Navegación inferior redundante -->
-  <div class="nav">
-    <button class="btn" id="btnPrev2" aria-label="Anterior">◀ Anterior</button>
-    <button class="btn" id="btnNext2" aria-label="Siguiente">Siguiente ▶</button>
-  </div>
-
-  <script>
-    // Utilidades
-    const $ = (s, r=document) => r.querySelector(s);
-    const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-
-    // Estado
-    const slides = $$('.slide');
-    let idx = 0;
-    let chartResultados = null;
-
-    // Crear efecto de partículas
-    function createParticles() {
-      const particlesContainer = $('#particles');
-      const particleCount = 30;
-      
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        // Tamaño aleatorio
-        const size = Math.random() * 4 + 1;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        
-        // Posición inicial aleatoria
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        
-        // Duración y delay aleatorios
-        const duration = Math.random() * 20 + 10;
-        const delay = Math.random() * 10;
-        particle.style.animationDuration = `${duration}s`;
-        particle.style.animationDelay = `${delay}s`;
-        
-        particlesContainer.appendChild(particle);
-      }
-    }
-
-    // Construir TOC
-    const toc = $('#toc');
-    slides.forEach((sl, i) => {
-      const a = document.createElement('a');
-      a.href = `#${i+1}`;
-      a.innerHTML = `<span class="num">${i+1}.</span> ${sl.dataset.title||'Sin título'}`;
-      a.addEventListener('click', e => { e.preventDefault(); go(i); toc.classList.remove('show'); });
-      toc.appendChild(a);
-    });
-
-    // Eventos botones
-    const prevBtns = [$('#btnPrev'), $('#btnPrev2')];
-    const nextBtns = [$('#btnNext'), $('#btnNext2')];
-    prevBtns.forEach(b => b.addEventListener('click', () => go(idx-1)));
-    nextBtns.forEach(b => b.addEventListener('click', () => go(idx+1)));
-    $('#btnToc').addEventListener('click', () => toc.classList.toggle('show'));
-    $('#btnPrint').addEventListener('click', () => window.print());
-
-    // Teclado
-    document.addEventListener('keydown', e => {
-      if(e.key === 'ArrowRight' || e.key === 'PageDown') go(idx+1);
-      if(e.key === 'ArrowLeft'  || e.key === 'PageUp')   go(idx-1);
-      if(e.key === 'Home') go(0);
-      if(e.key === 'End')  go(slides.length-1);
-      if(e.key.toLowerCase() === 'i') toc.classList.toggle('show');
-    });
-
-    // Hash deep-link
-    function fromHash(){
-      const h = location.hash.replace('#','');
-      const n = parseInt(h,10);
-      if(!isNaN(n) && n>=1 && n<=slides.length) return n-1;
-      return 0;
-    }
-
-    // Inicializar gráfico
-    function initChart() {
-      const canvas = $('#chartResultados');
-      if (!canvas) return;
-      
-      // Destruir gráfico anterior si existe
-      if (chartResultados) {
-        chartResultados.destroy();
-      }
-      
-      const ctx = canvas.getContext('2d');
-      
-      // Datos de cobertura por método y parámetro
-      const labels = ['Conv. Proporción','Conv. Media','Aleat. Proporción','Aleat. Media'];
-      const cobertura = [2.86, 2.61, 94.72, 93.94];
-      const sesgo = [-17.17, 10.30, 0.03, 0.00];
-      
-      // Colores
-      const barColors = ['#ff4757', '#ff4757', '#00b4d8', '#00b4d8'];
-      const lineColor = '#ffa502';
-
-      // Gráfico combinado: barras cobertura, línea sesgo
-      chartResultados = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [
-            { 
-              label: 'Cobertura %', 
-              data: cobertura, 
-              yAxisID: 'y1',
-              backgroundColor: barColors,
-              borderColor: barColors.map(color => color.replace('0.8', '1')),
-              borderWidth: 1,
-              borderRadius: 4
-            },
-            { 
-              type: 'line', 
-              label: 'Sesgo relativo %', 
-              data: sesgo, 
-              yAxisID: 'y2',
-              borderColor: lineColor,
-              backgroundColor: 'transparent',
-              borderWidth: 3,
-              pointBackgroundColor: lineColor,
-              pointRadius: 5,
-              pointHoverRadius: 7
-            }
-          ]
-        },
-        options: {
-          responsive: true, 
-          maintainAspectRatio: false,
-          plugins: { 
-            legend: { 
-              position: 'bottom',
-              labels: {
-                color: '#eaf0ff',
-                font: {
-                  family: "'Open Sans', sans-serif"
-                }
-              }
-            },
-            tooltip: {
-              backgroundColor: 'rgba(18, 26, 51, 0.9)',
-              titleColor: '#eaf0ff',
-              bodyColor: '#eaf0ff',
-              borderColor: 'rgba(255, 255, 255, 0.2)',
-              borderWidth: 1
-            }
-          },
-          scales: {
-            x: {
-              ticks: {
-                color: '#a6b4e6',
-                font: {
-                  family: "'Open Sans', sans-serif"
-                }
-              },
-              grid: {
-                color: 'rgba(166, 180, 230, 0.1)'
-              }
-            },
-            y1: { 
-              position: 'left', 
-              title: {
-                display: true, 
-                text: 'Cobertura %',
-                color: '#a6b4e6',
-                font: {
-                  family: "'Open Sans', sans-serif"
-                }
-              }, 
-              min: 0, 
-              max: 100, 
-              grid: {
-                color: 'rgba(166, 180, 230, 0.1)'
-              },
-              ticks: {
-                color: '#a6b4e6',
-                font: {
-                  family: "'Open Sans', sans-serif"
-                }
-              }
-            },
-            y2: { 
-              position: 'right', 
-              title: {
-                display: true, 
-                text: 'Sesgo %',
-                color: '#a6b4e6',
-                font: {
-                  family: "'Open Sans', sans-serif"
-                }
-              }, 
-              grid: {
-                display: false
-              },
-              ticks: {
-                color: '#a6b4e6',
-                font: {
-                  family: "'Open Sans', sans-serif"
-                }
-              }
-            }
-          }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 2: Inconsistencias en la especificación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-      });
-    }
-
-    // Progreso y activación
-    const progress = $('#progress');
-    function go(n){
-      if (n === idx) return; // Si es la misma diapositiva, no hacer nada
-      
-      const oldIdx = idx;
-      idx = Math.max(0, Math.min(slides.length-1, n));
-      
-      // Marcar la diapositiva actual como saliente
-      if (slides[oldIdx]) {
-        slides[oldIdx].classList.remove('active');
-        slides[oldIdx].classList.add('exiting');
-        
-        // Quitar clase visible de todos los steps
-        $$('.step', slides[oldIdx]).forEach(el => el.classList.remove('visible'));
-      }
-      
-      // Mostrar la nueva diapositiva
-      setTimeout(() => {
-        if (slides[oldIdx]) {
-          slides[oldIdx].classList.remove('exiting');
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
         }
-        
-        slides[idx].classList.add('active');
-        location.hash = `#${idx+1}`;
-        progress.style.transform = `scaleX(${idx/(slides.length-1)})`;
-        
-        // Revelado incremental de .step
-        const steps = $$('.step', slides[idx]);
-        steps.forEach((el, k) => setTimeout(() => el.classList.add('visible'), 150*(k+1)));
-        
-        // Inicializar gráfico si estamos en la slide 8
-        if (idx === 7) {
-          setTimeout(initChart, 300);
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
         }
-      }, 400);
-    }
+        .header {
+            padding: 40px 70px 20px;
+            background-color: #1a4f8a;
+        }
+        .title {
+            font-size: 40px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content {
+            display: flex;
+            flex-grow: 1;
+            padding: 0 70px 40px;
+        }
+        .left-content {
+            width: 55%;
+            padding-right: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .right-content {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .error-box {
+            background-color: #ffebee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .error-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #c62828;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .error-title .material-icons {
+            margin-right: 10px;
+            color: #c62828;
+        }
+        .error-description {
+            font-size: 16px;
+            color: #424242;
+        }
+        .formula-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .formula-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a4f8a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .formula-title .material-icons {
+            margin-right: 10px;
+            color: #1a4f8a;
+        }
+        .formula {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a4f8a;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .formula-description {
+            font-size: 16px;
+            color: #424242;
+            margin-top: 10px;
+        }
+        .image-container {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .highlight {
+            color: #e53935;
+            font-weight: 600;
+        }
+        .recommendation-box {
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .recommendation-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a4f8a;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .recommendation-title .material-icons {
+            margin-right: 10px;
+            color: #1a4f8a;
+        }
+        .recommendation-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .recommendation-item {
+            flex: 1 0 45%;
+            display: flex;
+            align-items: flex-start;
+        }
+        .recommendation-icon {
+            color: #1a4f8a;
+            margin-right: 8px;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .recommendation-text {
+            font-size: 16px;
+            color: #424242;
+        }
+        .likert-example {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        .likert-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a4f8a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .likert-title .material-icons {
+            margin-right: 8px;
+            color: #1a4f8a;
+            font-size: 18px;
+        }
+        .likert-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .likert-item {
+            background-color: #e0e0e0;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            width: 18%;
+        }
+        .likert-item.negative {
+            background-color: #ffcdd2;
+            color: #c62828;
+        }
+        .likert-item.positive {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Error 2: Inconsistencias en la especificación del parámetro y tipo de variable</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="error-box">
+                    <div class="error-title">
+                        <i class="material-icons">error_outline</i>
+                        Omisión del parámetro de interés
+                    </div>
+                    <div class="error-description">
+                        Se presenta el tamaño muestral sin indicar <span class="highlight">qué variable</span> se estima ni <span class="highlight">qué parámetro</span> se busca. Se usan valores genéricos (p=0,5) sin justificación.
+                    </div>
+                </div>
+                
+                <div class="error-box">
+                    <div class="error-title">
+                        <i class="material-icons">error_outline</i>
+                        Fórmula inadecuada para el tipo de variable
+                    </div>
+                    <div class="error-description">
+                        Se aplican fórmulas para <span class="highlight">proporciones</span> (dicotómicas) a variables <span class="highlight">ordinales</span> (escalas Likert) o <span class="highlight">continuas</span> (puntajes psicométricos).
+                    </div>
+                </div>
+                
+                <div class="formula-box">
+                    <div class="formula-title">
+                        <i class="material-icons">functions</i>
+                        Fórmulas según tipo de variable
+                    </div>
+                    <div class="formula">n = Z²p(1-p)/d²</div>
+                    <div class="formula-description">
+                        Para variables <strong>dicotómicas</strong> (proporciones)
+                    </div>
+                    <div class="formula">n = Z²s²/d²</div>
+                    <div class="formula-description">
+                        Para variables <strong>continuas</strong> (medias)
+                    </div>
+                </div>
+                
+                <div class="recommendation-box">
+                    <div class="recommendation-title">
+                        <i class="material-icons">rule</i>
+                        Criterios técnicos para especificación correcta
+                    </div>
+                    <div class="recommendation-list">
+                        <div class="recommendation-item">
+                            <i class="material-icons recommendation-icon">check_circle</i>
+                            <div class="recommendation-text">Identificar variable principal</div>
+                        </div>
+                        <div class="recommendation-item">
+                            <i class="material-icons recommendation-icon">check_circle</i>
+                            <div class="recommendation-text">Definir parámetro poblacional</div>
+                        </div>
+                        <div class="recommendation-item">
+                            <i class="material-icons recommendation-icon">check_circle</i>
+                            <div class="recommendation-text">Justificar valores de entrada</div>
+                        </div>
+                        <div class="recommendation-item">
+                            <i class="material-icons recommendation-icon">check_circle</i>
+                            <div class="recommendation-text">Verificar pertinencia de fórmula</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/223d0afc3425.jpg" alt="Ejemplo de escala Likert">
+                </div>
+                
+                <div class="error-box">
+                    <div class="error-title">
+                        <i class="material-icons">warning</i>
+                        Problema común con escalas Likert
+                    </div>
+                    <div class="error-description">
+                        Las escalas Likert son <span class="highlight">ordinales</span>, no continuas. Usar fórmulas para medias conduce a tamaños de muestra incorrectos.
+                    </div>
+                    
+                    <div class="likert-example">
+                        <div class="likert-title">
+                            <i class="material-icons">format_list_numbered</i>
+                            Escala Likert de 5 puntos
+                        </div>
+                        <div class="likert-scale">
+                            <div class="likert-item negative">1</div>
+                            <div class="likert-item negative">2</div>
+                            <div class="likert-item">3</div>
+                            <div class="likert-item positive">4</div>
+                            <div class="likert-item positive">5</div>
+                        </div>
+                        <div class="likert-scale">
+                            <div class="likert-item negative">Muy insatisfecho</div>
+                            <div class="likert-item negative">Insatisfecho</div>
+                            <div class="likert-item">Neutral</div>
+                            <div class="likert-item positive">Satisfecho</div>
+                            <div class="likert-item positive">Muy satisfecho</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
 
-    // Inicialización
-    window.addEventListener('load', () => {
-      createParticles();
-      go(fromHash());
-    });
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseño de simulación para evaluar impacto de los errores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            padding: 40px 70px 20px;
+            background-color: #1a4f8a;
+        }
+        .title {
+            font-size: 40px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content {
+            display: flex;
+            flex-grow: 1;
+            padding: 0 70px 40px;
+        }
+        .left-content {
+            width: 60%;
+            padding-right: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .right-content {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .simulation-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .simulation-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a4f8a;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .simulation-title .material-icons {
+            margin-right: 10px;
+            color: #1a4f8a;
+            font-size: 24px;
+        }
+        .formula {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a4f8a;
+            margin: 10px 0;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .formula-description {
+            font-size: 16px;
+            color: #424242;
+            margin-top: 5px;
+        }
+        .code-block {
+            background-color: #263238;
+            color: #eeffff;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+            margin: 10px 0;
+            overflow: auto;
+            max-height: 180px;
+        }
+        .code-comment {
+            color: #546e7a;
+        }
+        .code-keyword {
+            color: #c792ea;
+        }
+        .code-string {
+            color: #c3e88d;
+        }
+        .code-function {
+            color: #82aaff;
+        }
+        .code-number {
+            color: #f78c6c;
+        }
+        .highlight {
+            color: #e53935;
+            font-weight: 600;
+        }
+        .image-container {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .metrics-box {
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .metrics-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a4f8a;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .metrics-title .material-icons {
+            margin-right: 10px;
+            color: #1a4f8a;
+            font-size: 24px;
+        }
+        .metrics-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .metric-item {
+            flex: 1 0 45%;
+            display: flex;
+            align-items: flex-start;
+        }
+        .metric-icon {
+            color: #1a4f8a;
+            margin-right: 8px;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .metric-text {
+            font-size: 16px;
+            color: #424242;
+        }
+        .parameters-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .parameter-item {
+            display: flex;
+            align-items: center;
+        }
+        .parameter-icon {
+            color: #1a4f8a;
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        .parameter-text {
+            font-size: 16px;
+            color: #424242;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Diseño de simulación para evaluar impacto de los errores</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="simulation-box">
+                    <div class="simulation-title">
+                        <i class="material-icons">dataset</i>
+                        Población y parámetros
+                    </div>
+                    <div class="parameters-grid">
+                        <div class="parameter-item">
+                            <i class="material-icons parameter-icon">groups</i>
+                            <div class="parameter-text"><strong>N:</strong> 279,152</div>
+                        </div>
+                        <div class="parameter-item">
+                            <i class="material-icons parameter-icon">pie_chart</i>
+                            <div class="parameter-text"><strong>p<sub>true</sub>:</strong> mean(sexo == "F")</div>
+                        </div>
+                        <div class="parameter-item">
+                            <i class="material-icons parameter-icon">payments</i>
+                            <div class="parameter-text"><strong>μ<sub>true</sub>:</strong> mean(salario_total)</div>
+                        </div>
+                        <div class="parameter-item">
+                            <i class="material-icons parameter-icon">trending_up</i>
+                            <div class="parameter-text"><strong>σ<sub>true</sub>:</strong> sd(salario_total)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="simulation-box">
+                    <div class="simulation-title">
+                        <i class="material-icons">functions</i>
+                        Cálculo de tamaño muestral
+                    </div>
+                    <div class="formula">alpha = 0.05</div>
+                    <div class="formula">Z = qnorm(1 - alpha/2)</div>
+                    <div class="formula">n0<sub>p</sub> = Z² × 0.5 × (1 - 0.5) / E<sub>prop</sub>²</div>
+                    <div class="formula">n0<sub>m</sub> = Z² × σ<sub>piloto</sub>² / E<sub>media</sub>²</div>
+                </div>
+                
+                <div class="simulation-box">
+                    <div class="simulation-title">
+                        <i class="material-icons">code</i>
+                        Funciones de muestreo en R
+                    </div>
+                    <div class="code-block">
+<span class="code-comment"># Muestreo por conveniencia</span>
+<span class="code-keyword">muestreo_conveniencia</span> <span class="code-keyword">function</span>(base, n, offset = 0) {
+  top5  <span class="code-operator">=</span> <span class="code-function">names</span>(<span class="code-function">sort</span>(<span class="code-function">table</span>(base$descripcionEntidad), decreasing = <span class="code-keyword">TRUE</span>))[<span class="code-number">1:5</span>]
+  sizes <span class="code-operator">=</span> <span class="code-function">rep</span>(<span class="code-function">floor</span>(n <span class="code-operator">/</span> <span class="code-number">5</span>), <span class="code-number">5</span>)
+  <span class="code-comment"># ... código de selección</span>
+}
+
+<span class="code-comment"># Muestreo aleatorio simple</span>
+<span class="code-keyword">muestreo_srs</span> <span class="code-keyword">function</span>(base, n) {
+  idx <span class="code-operator">=</span> <span class="code-function">sample.int</span>(<span class="code-function">nrow</span>(base), n)
+  base[idx, ]
+}
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/b93e6e7aef8c.jpg" alt="Simulación estadística en R">
+                </div>
+                
+                <div class="simulation-box">
+                    <div class="simulation-title">
+                        <i class="material-icons">loop</i>
+                        Simulación comparativa
+                    </div>
+                    <div class="code-block">
+<span class="code-keyword">for</span> (i <span class="code-keyword">in</span> <span class="code-function">seq_len</span>(R)) {
+  <span class="code-comment"># Muestreo por conveniencia</span>
+  samp_c <span class="code-operator">=</span> <span class="code-function">muestreo_conveniencia</span>(fppers, n_p, offset)
+  p_hat_c <span class="code-operator">=</span> <span class="code-function">mean</span>(samp_c$sexo <span class="code-operator">==</span> <span class="code-string">"F"</span>)
+  se_p_c <span class="code-operator">=</span> <span class="code-function">sqrt</span>(p_hat_c <span class="code-operator">*</span> (<span class="code-number">1</span> <span class="code-operator">-</span> p_hat_c) <span class="code-operator">/</span> n_p)
+  
+  <span class="code-comment"># Muestreo aleatorio simple</span>
+  samp_s <span class="code-operator">=</span> <span class="code-function">muestreo_srs</span>(fppers, n_p)
+  p_hat_s <span class="code-operator">=</span> <span class="code-function">mean</span>(samp_s$sexo <span class="code-operator">==</span> <span class="code-string">"F"</span>)
+  se_p_s <span class="code-operator">=</span> <span class="code-function">sqrt</span>((<span class="code-number">1</span> <span class="code-operator">-</span> n_p <span class="code-operator">/</span> N_tot) <span class="code-operator">*</span> p_hat_s <span class="code-operator">*</span> (<span class="code-number">1</span> <span class="code-operator">-</span> p_hat_s) <span class="code-operator">/</span> n_p)
+}
+                    </div>
+                </div>
+                
+                <div class="metrics-box">
+                    <div class="metrics-title">
+                        <i class="material-icons">analytics</i>
+                        Métricas de evaluación
+                    </div>
+                    <div class="metrics-list">
+                        <div class="metric-item">
+                            <i class="material-icons metric-icon">check_circle</i>
+                            <div class="metric-text"><strong>Cobertura empírica:</strong> proporción de IC que contienen el parámetro verdadero</div>
+                        </div>
+                        <div class="metric-item">
+                            <i class="material-icons metric-icon">trending_down</i>
+                            <div class="metric-text"><strong>Sesgo relativo:</strong> (θ̂ - θ)/θ × 100</div>
+                        </div>
+                        <div class="metric-item">
+                            <i class="material-icons metric-icon">repeat</i>
+                            <div class="metric-text"><strong>Réplicas:</strong> 1,000 por esquema</div>
+                        </div>
+                        <div class="metric-item">
+                            <i class="material-icons metric-icon">compare_arrows</i>
+                            <div class="metric-text"><strong>Comparación:</strong> conveniencia vs aleatorio simple</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de la simulación: cobertura y sesgo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            padding: 40px 70px 20px;
+            background-color: #1a4f8a;
+        }
+        .title {
+            font-size: 40px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content {
+            display: flex;
+            flex-grow: 1;
+            padding: 0 70px 40px;
+        }
+        .left-content {
+            width: 50%;
+            padding-right: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .right-content {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .results-table th {
+            background-color: #1a4f8a;
+            color: white;
+            font-weight: 600;
+            text-align: left;
+            padding: 15px;
+            font-size: 18px;
+        }
+        .results-table td {
+            padding: 15px;
+            font-size: 16px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+        .results-table tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        .results-table .method-cell {
+            font-weight: 600;
+            color: #1a4f8a;
+        }
+        .results-table .good-result {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        .results-table .bad-result {
+            color: #c62828;
+            font-weight: 600;
+        }
+        .formula-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .formula-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a4f8a;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .formula-title .material-icons {
+            margin-right: 10px;
+            color: #1a4f8a;
+        }
+        .formula {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a4f8a;
+            margin: 10px 0;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            text-align: center;
+        }
+        .interpretation-box {
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .interpretation-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a4f8a;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .interpretation-title .material-icons {
+            margin-right: 10px;
+            color: #1a4f8a;
+        }
+        .interpretation-text {
+            font-size: 16px;
+            color: #424242;
+            line-height: 1.5;
+        }
+        .highlight {
+            color: #e53935;
+            font-weight: 600;
+        }
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        .implications-box {
+            background-color: #ffebee;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .implications-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #c62828;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .implications-title .material-icons {
+            margin-right: 10px;
+            color: #c62828;
+        }
+        .implications-text {
+            font-size: 16px;
+            color: #424242;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Resultados de la simulación: cobertura y sesgo</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="results-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetro</th>
+                                <th>Cobertura</th>
+                                <th>Sesgo relativo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="method-cell" rowspan="2">Conveniencia</td>
+                                <td>Proporción</td>
+                                <td class="bad-result">2.86%</td>
+                                <td class="bad-result">-17.17%</td>
+                            </tr>
+                            <tr>
+                                <td>Media</td>
+                                <td class="bad-result">2.61%</td>
+                                <td class="bad-result">+10.30%</td>
+                            </tr>
+                            <tr>
+                                <td class="method-cell" rowspan="2">Aleatorio</td>
+                                <td>Proporción</td>
+                                <td class="good-result">94.72%</td>
+                                <td class="good-result">≈ 0.03%</td>
+                            </tr>
+                            <tr>
+                                <td>Media</td>
+                                <td class="good-result">93.94%</td>
+                                <td class="good-result">≈ 0.00%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="formula-box">
+                    <div class="formula-title">
+                        <i class="material-icons">functions</i>
+                        Cálculo del sesgo relativo
+                    </div>
+                    <div class="formula">
+                        sesgo_rel = (1/R) × Σ(θ̂_r - θ)/θ × 100
+                    </div>
+                </div>
+                
+                <div class="interpretation-box">
+                    <div class="interpretation-title">
+                        <i class="material-icons">analytics</i>
+                        Interpretación técnica
+                    </div>
+                    <div class="interpretation-text">
+                        • Cobertura <span class="highlight">colapsada</span> en muestreo por conveniencia (2.86% y 2.61%)<br>
+                        • Cobertura <span class="highlight">adecuada</span> en muestreo aleatorio (94.72% y 93.94%)<br>
+                        • Sesgos <span class="highlight">significativos</span> en conveniencia (-17.17% y +10.30%)<br>
+                        • Sesgos <span class="highlight">mínimos</span> en aleatorio (≈0%)
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="chart-container">
+                    <canvas id="coverageChart"></canvas>
+                </div>
+                
+                <div class="implications-box">
+                    <div class="implications-title">
+                        <i class="material-icons">warning</i>
+                        Implicaciones para la validez inferencial
+                    </div>
+                    <div class="implications-text">
+                        • Los intervalos de confianza calculados con muestreo por conveniencia <span class="highlight">no contienen</span> el parámetro verdadero en el 97% de los casos<br>
+                        • Los sesgos sistemáticos invalidan las conclusiones<br>
+                        • La inferencia estadística pierde sentido sin aleatoriedad<br>
+                        • El cálculo correcto de n no compensa un diseño incorrecto
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
-    window.addEventListener('hashchange', () => go(fromHash()));
-  </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('coverageChart').getContext('2d');
+            
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Conveniencia - Proporción', 'Conveniencia - Media', 'Aleatorio - Proporción', 'Aleatorio - Media'],
+                    datasets: [
+                        {
+                            label: 'Cobertura (%)',
+                            data: [2.86, 2.61, 94.72, 93.94],
+                            backgroundColor: [
+                                'rgba(198, 40, 40, 0.7)',
+                                'rgba(198, 40, 40, 0.7)',
+                                'rgba(46, 125, 50, 0.7)',
+                                'rgba(46, 125, 50, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(198, 40, 40, 1)',
+                                'rgba(198, 40, 40, 1)',
+                                'rgba(46, 125, 50, 1)',
+                                'rgba(46, 125, 50, 1)'
+                            ],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Cobertura (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Cobertura empírica del IC 95%',
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuestas metodológicas técnicas para evitar errores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background-color: #f5f5f5;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            padding: 40px 70px 20px;
+            background-color: #1a4f8a;
+        }
+        .title {
+            font-size: 40px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content {
+            display: flex;
+            flex-grow: 1;
+            padding: 0 70px 40px;
+        }
+        .left-content {
+            width: 60%;
+            padding-right: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .right-content {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .guidelines-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .guideline-item {
+            flex: 1 0 45%;
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+        }
+        .guideline-icon {
+            color: #1a4f8a;
+            margin-right: 12px;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .guideline-text {
+            font-size: 16px;
+            color: #424242;
+            line-height: 1.4;
+        }
+        .guideline-title {
+            font-weight: 600;
+            color: #1a4f8a;
+            margin-bottom: 5px;
+        }
+        .highlight {
+            color: #e53935;
+            font-weight: 600;
+        }
+        .alternative-box {
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .alternative-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a4f8a;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .alternative-title .material-icons {
+            margin-right: 10px;
+            color: #1a4f8a;
+        }
+        .alternative-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .alternative-item {
+            flex: 1 0 45%;
+            display: flex;
+            align-items: center;
+        }
+        .alternative-icon {
+            color: #1a4f8a;
+            margin-right: 8px;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .alternative-text {
+            font-size: 16px;
+            color: #424242;
+        }
+        .image-container {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .conclusion-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid #2e7d32;
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .conclusion-text {
+            font-size: 18px;
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        .method-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            width: 100%;
+        }
+        .method-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a4f8a;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .method-title .material-icons {
+            margin-right: 10px;
+            color: #1a4f8a;
+            font-size: 24px;
+        }
+        .method-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+        }
+        .step-number {
+            background-color: #1a4f8a;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 10px;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+        .step-text {
+            font-size: 16px;
+            color: #424242;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1 class="title">Propuestas metodológicas técnicas para evitar errores</h1>
+        </div>
+        <div class="content">
+            <div class="left-content">
+                <div class="guidelines-container">
+                    <div class="guideline-item">
+                        <i class="material-icons guideline-icon">check_circle</i>
+                        <div class="guideline-text">
+                            <div class="guideline-title">Definición clara</div>
+                            Variable y parámetro poblacional explícitos
+                        </div>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="material-icons guideline-icon">fact_check</i>
+                        <div class="guideline-text">
+                            <div class="guideline-title">Justificación de insumos</div>
+                            Valores de p, s, d con base empírica o teórica
+                        </div>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="material-icons guideline-icon">sync_alt</i>
+                        <div class="guideline-text">
+                            <div class="guideline-title">Concordancia</div>
+                            Fórmula adecuada al tipo de variable
+                        </div>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="material-icons guideline-icon">balance</i>
+                        <div class="guideline-text">
+                            <div class="guideline-title">Consistencia</div>
+                            Diseño muestral coherente con fórmula
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alternative-box">
+                    <div class="alternative-title">
+                        <i class="material-icons">alt_route</i>
+                        Criterios alternativos en estudios no inferenciales
+                    </div>
+                    <div class="alternative-list">
+                        <div class="alternative-item">
+                            <i class="material-icons alternative-icon">auto_stories</i>
+                            <div class="alternative-text">Saturación teórica</div>
+                        </div>
+                        <div class="alternative-item">
+                            <i class="material-icons alternative-icon">history</i>
+                            <div class="alternative-text">Experiencia previa</div>
+                        </div>
+                        <div class="alternative-item">
+                            <i class="material-icons alternative-icon">explore</i>
+                            <div class="alternative-text">Objetivos exploratorios</div>
+                        </div>
+                        <div class="alternative-item">
+                            <i class="material-icons alternative-icon">schedule</i>
+                            <div class="alternative-text">Limitaciones operativas</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="conclusion-box">
+                    <p class="conclusion-text">La transparencia en la documentación del muestreo fortalece la credibilidad científica</p>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="image-container">
+                    <img src="https://sfile.chatglm.cn/images-ppt/2db840bcbf3a.jpg" alt="Metodología de investigación">
+                </div>
+                
+                <div class="method-box">
+                    <div class="method-title">
+                        <i class="material-icons">alt_route</i>
+                        Muestreo aleatorio en poblaciones no delimitadas
+                    </div>
+                    <div class="method-steps">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Definir tamaño operativo N* (ej. primeros 400 individuos)</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Calcular n con fórmulas estándar</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Seleccionar aleatoriamente n números entre 1 y N*</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">4</div>
+                            <div class="step-text">Numerar individuos según orden de llegada</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="guideline-item" style="width: 100%">
+                    <i class="material-icons guideline-icon">description</i>
+                    <div class="guideline-text">
+                        <div class="guideline-title">Delimitación de alcances</div>
+                        Explicitar que los resultados son <span class="highlight">exploratorios</span> y no generalizables cuando no se realiza cálculo muestral
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
