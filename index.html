@@ -1,3 +1,5 @@
+mejora esta version de una manera increible, piensa diferente sorprendeme
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -119,7 +121,7 @@
       left: 20px;
       width: 120px;
       height: auto;
-      z-index: 1002; /* Aumentado para que esté por encima del header */
+      z-index: 1001;
       filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
       transition: transform 0.3s ease;
     }
@@ -153,8 +155,8 @@
       z-index: 1;
     }
     .card:hover {
-      transform: scale(1.05); /* Reducido de 1.5 a 1.05 */
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      transform: scale(1.08);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
       z-index: 10;
     }
     .card.accent{border-left:5px solid var(--accent); box-shadow: 0 8px 25px rgba(255, 106, 0, 0.2);}
@@ -177,8 +179,8 @@
       z-index: 1;
     }
     .kpi:hover {
-      transform: scale(1.05); /* Reducido de 1.5 a 1.05 */
-      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+      transform: scale(1.08);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
       z-index: 10;
     }
     .kpi .v{font-size:1.8rem; font-weight:700}
@@ -188,7 +190,7 @@
     .bullets{margin:0; padding-left:18px}
     .bullets li{margin:8px 0; transition: transform 0.3s ease;}
     .bullets li:hover {
-      transform: translateX(10px) scale(1.05); /* Reducido de 1.1 a 1.05 */
+      transform: translateX(10px);
     }
     .step{opacity:0; transform:translateY(10px); transition:all 0.5s ease}
     .step.visible{opacity:1; transform:translateY(0)}
@@ -205,7 +207,7 @@
       z-index: 1;
     }
     .formula:hover {
-      transform: scale(1.05); /* Reducido de 1.5 a 1.05 */
+      transform: scale(1.03);
       z-index: 10;
     }
 
@@ -220,80 +222,7 @@
     }
     .chip:hover {
       background:rgba(255,255,255,.12);
-      transform: scale(1.05); /* Reducido de 1.5 a 1.05 */
-    }
-
-    /* Simulación interactiva */
-    .simulation-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin-top: 20px;
-    }
-    
-    .simulation-controls {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .simulation-btn {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    
-    .simulation-btn:hover {
-      background: var(--accent-2);
-      transform: scale(1.05); /* Reducido de 1.1 a 1.05 */
-    }
-    
-    .simulation-results {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    
-    .simulation-chart {
-      height: 300px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 10px;
-      padding: 15px;
-    }
-    
-    .simulation-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-    
-    .stat-box {
-      background: rgba(255,255,255,0.08);
-      border-radius: 8px;
-      padding: 15px;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-    
-    .stat-box:hover {
-      transform: scale(1.05); /* Reducido de 1.1 a 1.05 */
-    }
-    
-    .stat-value {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin: 10px 0;
-    }
-    
-    .stat-label {
-      font-size: 0.9rem;
-      color: var(--muted);
+      transform: scale(1.08);
     }
 
     /* Navegación inferior */
@@ -319,18 +248,6 @@
     /* Numeración */
     .numtag{
       position:absolute; top:10px; right:18px; font-size:.9rem; color:#c9d2ff88
-    }
-
-    /* Pie de página */
-    .slide-footer {
-      position: absolute;
-      bottom: 15px;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      font-size: 0.9rem;
-      color: var(--muted);
-      padding: 0 40px;
     }
 
     /* Animaciones personalizadas */
@@ -376,7 +293,7 @@
       transform-origin: center;
     }
     .chart-container:hover {
-      transform: scale(1.05); /* Reducido de 1.5 a 1.05 */
+      transform: scale(1.03);
     }
 
     /* Modo impresión: una diapositiva por página */
@@ -385,18 +302,6 @@
       .topbar,.index,.nav,.toc,.logo-clatse{display:none !important}
       .deck{padding-top:0}
       .slide{position:static; opacity:1; transform:none; page-break-after:always; min-height:100vh}
-    }
-
-    /* Código R */
-    .code-block {
-      background: #2c3e50;
-      color: #ecf0f1;
-      padding: 15px;
-      border-radius: 8px;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 0.9rem;
-      overflow-x: auto;
-      margin: 15px 0;
     }
   </style>
 </head>
@@ -456,61 +361,15 @@
           <div class="kpi"><span class="v">3,3&nbsp;millones</span><span class="t">artículos publicados, 2022</span></div>
         </div>
       </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
+      <div class="footer">
+        <span class="chip">Contexto y alcances</span>
+        <span>↑↓ teclas, clic o botones para navegar</span>
       </div>
     </section>
 
-    <!-- 2. Presentación del disertante -->
-    <section class="slide" data-id="2" data-title="Presentación del disertante">
+    <!-- 2. Introducción -->
+    <section class="slide" data-id="2" data-title="Introducción y motivación">
       <span class="numtag">2</span>
-      <h2>Presentación del Disertante</h2>
-      <div class="grid cols-2">
-        <div class="card">
-          <div class="lead">Diego Bernardo Meza Bogado</div>
-          <ul class="bullets" style="margin-top:10px">
-            <li class="step">Licenciado en Ciencias Matemáticas con mención en Estadística</li>
-            <li class="step">Magíster en Estadística</li>
-            <li class="step">Doctorando en Ciencias Exactas, Naturales y sus Aplicaciones</li>
-            <li class="step">Profesor Escalafonado Asistente en la Facultad de Ciencias Exactas y Naturales - UNA</li>
-            <li class="step">Especialista en estadística aplicada, economía laboral y seguridad social</li>
-            <li class="step">Experiencia en análisis de registros administrativos y datos abiertos</li>
-          </ul>
-          <div class="kpi" style="margin-top:15px">
-            <span class="v">15+</span>
-            <span class="t">años de experiencia</span>
-          </div>
-        </div>
-        <div class="card">
-          <div class="lead">Áreas de Especialización</div>
-          <ul class="bullets" style="margin-top:10px">
-            <li class="step">Estadística aplicada a políticas públicas</li>
-            <li class="step">Análisis actuarial y seguridad social</li>
-            <li class="step">Mercado laboral y economía</li>
-            <li class="step">Gestión y análisis de datos</li>
-            <li class="step">Programación en R y Python para ciencias de datos</li>
-            <li class="step">Automatización de procesos estadísticos</li>
-          </ul>
-          <div class="card accent" style="margin-top:15px">
-            <div class="lead">CV Público</div>
-            <p style="margin-top:6px">
-              <a href="https://cv.conacyt.gov.py/publicar/cv?id=ea46989c3d19cb9063f3b98999d33ab8" 
-                 target="_blank" 
-                 style="color: var(--accent-2); text-decoration: none; font-weight: 600;">
-                https://cv.conacyt.gov.py/publicar/cv?id=ea46989c3d19cb9063f3b98999d33ab8
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
-      </div>
-    </section>
-
-    <!-- 3. Introducción -->
-    <section class="slide" data-id="3" data-title="Introducción y motivación">
-      <span class="numtag">3</span>
       <h2>Introducción y motivación</h2>
       <div class="grid cols-2">
         <div class="card">
@@ -529,14 +388,15 @@
           </ul>
         </div>
       </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
+      <div class="footer">
+        <span class="chip">Rigor metodológico y diseño</span>
+        <span>Selección correcta del diseño y del parámetro</span>
       </div>
     </section>
 
-    <!-- 4. Error 1 -->
-    <section class="slide" data-id="4" data-title="Error 1: fórmulas en diseños no probabilísticos">
-      <span class="numtag">4</span>
+    <!-- 3. Error 1 -->
+    <section class="slide" data-id="3" data-title="Error 1: fórmulas en diseños no probabilísticos">
+      <span class="numtag">3</span>
       <h2>Error 1, aplicación indebida de fórmulas</h2>
       <div class="grid cols-2">
         <div class="card bad">
@@ -561,14 +421,15 @@
           </ul>
         </div>
       </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
+      <div class="footer">
+        <span class="chip">Recomendación</span>
+        <span>Documentar marco muestral y mecanismo de selección</span>
       </div>
     </section>
 
-    <!-- 5. Error 2 -->
-    <section class="slide" data-id="5" data-title="Error 2: parámetro y variable no corresponden">
-      <span class="numtag">5</span>
+    <!-- 4. Error 2 -->
+    <section class="slide" data-id="4" data-title="Error 2: parámetro y variable no corresponden">
+      <span class="numtag">4</span>
       <h2>Error 2, inconsistencia entre parámetro y variable</h2>
       <div class="grid cols-2">
         <div class="card warn">
@@ -588,135 +449,15 @@
           </ul>
         </div>
       </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
+      <div class="footer">
+        <span class="chip">Correspondencia</span>
+        <span>Fórmula alineada al nivel de medición</span>
       </div>
     </section>
 
-    <!-- 6. Base Real del Muestreo -->
-    <section class="slide" data-id="6" data-title="Base Real del Muestreo">
-      <span class="numtag">6</span>
-      <h2>Base Real para el Desarrollo del Muestreo</h2>
-      <div class="grid cols-2">
-        <div class="card">
-          <div class="lead">Fuentes de Datos</div>
-          <ul class="bullets" style="margin-top:10px">
-            <li class="step">Encuestas nacionales de salud y nutrición (ENSANUT)</li>
-            <li class="step">Registros administrativos del sistema de salud público</li>
-            <li class="step">Datos censales del Instituto Nacional de Estadística y Censos (INEC)</li>
-            <li class="step">Estudios longitudinales de cohortes regionales</li>
-            <li class="step">Registros administrativos del Instituto de Previsión Social (IPS)</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="lead">Características de la Muestra</div>
-          <ul class="bullets" style="margin-top:10px">
-            <li class="step"><strong>Tamaño muestral:</strong> n = 2,500 participantes</li>
-            <li class="step"><strong>Diseño muestral:</strong> Muestreo estratificado por regiones</li>
-            <li class="step"><strong>Periodo de recolección:</strong> Enero 2023 - Diciembre 2024</li>
-            <li class="step"><strong>Criterios de inclusión:</strong> Adultos entre 18-65 años, residentes permanentes</li>
-          </ul>
-          <div class="kpi" style="margin-top:15px">
-            <span class="v">±2.5%</span>
-            <span class="t">error muestral estimado</span>
-          </div>
-        </div>
-      </div>
-      <div class="card" style="margin-top:20px">
-        <div class="lead">Variables Principales</div>
-        <div class="grid cols-3" style="margin-top:10px">
-          <div>
-            <ul class="bullets">
-              <li class="step">Edad</li>
-              <li class="step">Género</li>
-              <li class="step">Educación</li>
-            </ul>
-          </div>
-          <div>
-            <ul class="bullets">
-              <li class="step">Ingresos</li>
-              <li class="step">IMC</li>
-              <li class="step">Presión arterial</li>
-            </ul>
-          </div>
-          <div>
-            <ul class="bullets">
-              <li class="step">Condiciones crónicas</li>
-              <li class="step">Factores de riesgo</li>
-              <li class="step">Acceso a servicios</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
-      </div>
-    </section>
-
-    <!-- 7. Implementación en R -->
-    <section class="slide" data-id="7" data-title="Implementación en R">
-      <span class="numtag">7</span>
-      <h2>Implementación en R: Gestión de Datos y Simulación</h2>
-      <div class="grid cols-2">
-        <div class="card">
-          <div class="lead">Paquetes Utilizados</div>
-          <ul class="bullets" style="margin-top:10px">
-            <li class="step"><strong>dplyr</strong> y <strong>tidyr</strong> para manipulación de datos</li>
-            <li class="step"><strong>ggplot2</strong> para visualización</li>
-            <li class="step"><strong>survey</strong> para análisis de datos complejos</li>
-            <li class="step"><strong>boot</strong> para métodos de bootstrap</li>
-            <li class="step"><strong>MASS</strong> para simulaciones</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="lead">Flujo de Trabajo</div>
-          <ul class="bullets" style="margin-top:10px">
-            <li class="step">Carga y limpieza de datos</li>
-            <li class="step">Análisis exploratorio</li>
-            <li class="step">Cálculo de tamaños muestrales</li>
-            <li class="step">Simulación de escenarios</li>
-            <li class="step">Validación de resultados</li>
-            <li class="step">Generación de reportes</li>
-          </ul>
-        </div>
-      </div>
-      <div class="card" style="margin-top:20px">
-        <div class="lead">Código para Gestión de Datos</div>
-        <div class="code-block">
-# Cargar librerías necesarias<br>
-library(dplyr)<br>
-library(tidyr)<br>
-library(ggplot2)<br>
-<br>
-# Cargar y limpiar datos<br>
-datos <- read.csv("datos_estudio.csv")<br>
-datos_limpios <- datos %>%<br>
-&nbsp;&nbsp;filter(edad >= 18 & edad <= 65) %>%<br>
-&nbsp;&nbsp;mutate(imc_categoria = case_when(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;imc < 18.5 ~ "Bajo peso",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;imc >= 18.5 & imc < 25 ~ "Normal",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;imc >= 25 & imc < 30 ~ "Sobrepeso",<br>
-&nbsp;&nbsp;&nbsp;&nbsp;imc >= 30 ~ "Obesidad"<br>
-&nbsp;&nbsp;))<br>
-<br>
-# Análisis descriptivo<br>
-resumen <- datos_limpios %>%<br>
-&nbsp;&nbsp;group_by(region, imc_categoria) %>%<br>
-&nbsp;&nbsp;summarise(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;n = n(),<br>
-&nbsp;&nbsp;&nbsp;&nbsp;promedio_edad = mean(edad),<br>
-&nbsp;&nbsp;&nbsp;&nbsp;.groups = 'drop'<br>
-&nbsp;&nbsp;)
-        </div>
-      </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
-      </div>
-    </section>
-
-    <!-- 8. Escalas Likert -->
-    <section class="slide" data-id="8" data-title="Escalas Likert: dos rutas">
-      <span class="numtag">8</span>
+    <!-- 5. Escalas Likert -->
+    <section class="slide" data-id="5" data-title="Escalas Likert: dos rutas">
+      <span class="numtag">5</span>
       <h2>Escalas Likert, dos rutas metodológicas</h2>
       <div class="grid cols-2">
         <div class="card ok">
@@ -736,14 +477,15 @@ resumen <- datos_limpios %>%<br>
           </ul>
         </div>
       </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
+      <div class="footer">
+        <span class="chip">Validez</span>
+        <span>Elección coherente con el análisis previsto</span>
       </div>
     </section>
 
-    <!-- 9. Población no delimitada -->
-    <section class="slide" data-id="9" data-title="Población no delimitada: muestreo aleatorio operativo">
-      <span class="numtag">9</span>
+    <!-- 6. Población no delimitada -->
+    <section class="slide" data-id="6" data-title="Población no delimitada: muestreo aleatorio operativo">
+      <span class="numtag">6</span>
       <h2>Muestreo aleatorio con población no delimitada</h2>
       <div class="card accent">
         <div class="lead">Estrategia basada en orden de llegada</div>
@@ -761,14 +503,15 @@ resumen <- datos_limpios %>%<br>
           <li class="step">Documentar supuestos, agotamiento potencial y logística.</li>
         </ul>
       </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
+      <div class="footer">
+        <span class="chip">Aplicabilidad</span>
+        <span>Convocatorias abiertas, flujos progresivos, poblaciones móviles</span>
       </div>
     </section>
 
-    <!-- 10. Simulación: diseño -->
-    <section class="slide" data-id="10" data-title="Simulación: diseño y parámetros">
-      <span class="numtag">10</span>
+    <!-- 7. Simulación: diseño -->
+    <section class="slide" data-id="7" data-title="Simulación: diseño y parámetros">
+      <span class="numtag">7</span>
       <h2>Simulación, diseño y parámetros</h2>
       <div class="grid cols-2">
         <div class="card">
@@ -794,71 +537,74 @@ resumen <- datos_limpios %>%<br>
           <div class="kpi"><span class="v">10&nbsp;000</span><span class="t">réplicas por escenario</span></div>
         </div>
       </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
+      <div class="footer">
+        <span class="chip">Evaluación</span>
+        <span>Impacto del diseño en precisión e inferencia</span>
       </div>
     </section>
 
-    <!-- 11. Simulación: resultados con gráfico -->
-    <section class="slide" data-id="11" data-title="Simulación Interactiva">
-      <span class="numtag">11</span>
-      <h2>Simulación Interactiva: Cobertura y Sesgo</h2>
-      <div class="simulation-container">
-        <div class="simulation-controls">
-          <button class="simulation-btn" id="runSimulation">Ejecutar Simulación</button>
-          <button class="simulation-btn" id="resetSimulation">Reiniciar</button>
-          <span id="simulationStatus">Listo para ejecutar</span>
-        </div>
-        
-        <div class="simulation-results">
-          <div class="simulation-chart">
-            <canvas id="simulationChart" aria-label="Resultados de simulación"></canvas>
-          </div>
-          
-          <div class="simulation-stats">
-            <div class="stat-box">
-              <div class="stat-label">Cobertura - Conveniencia</div>
-              <div class="stat-value" id="coverageConv">0%</div>
-              <div class="stat-label">Proporción: <span id="propConv">0%</span></div>
-              <div class="stat-label">Media: <span id="meanConv">0%</span></div>
-            </div>
-            
-            <div class="stat-box">
-              <div class="stat-label">Cobertura - Aleatorio</div>
-              <div class="stat-value" id="coverageRand">0%</div>
-              <div class="stat-label">Proporción: <span id="propRand">0%</span></div>
-              <div class="stat-label">Media: <span id="meanRand">0%</span></div>
-            </div>
-            
-            <div class="stat-box">
-              <div class="stat-label">Sesgo - Conveniencia</div>
-              <div class="stat-value" id="biasConv">0%</div>
-              <div class="stat-label">Proporción: <span id="biasPropConv">0%</span></div>
-              <div class="stat-label">Media: <span id="biasMeanConv">0%</span></div>
-            </div>
-            
-            <div class="stat-box">
-              <div class="stat-label">Sesgo - Aleatorio</div>
-              <div class="stat-value" id="biasRand">0%</div>
-              <div class="stat-label">Proporción: <span id="biasPropRand">0%</span></div>
-              <div class="stat-label">Media: <span id="biasMeanRand">0%</span></div>
-            </div>
-          </div>
-        </div>
-        
+    <!-- 8. Simulación: resultados con gráfico -->
+    <section class="slide" data-id="8" data-title="Resultados: cobertura y sesgo">
+      <span class="numtag">8</span>
+      <h2>Resultados, cobertura y sesgo</h2>
+      <div class="grid cols-2">
         <div class="card">
-          <div class="lead">Interpretación de resultados</div>
-          <p>La simulación demuestra cómo el muestreo por conveniencia, incluso con el tamaño muestral calculado correctamente, produce intervalos de confianza que no cubren el parámetro poblacional. En contraste, el muestreo aleatorio mantiene la cobertura cercana al 95% esperado.</p>
+          <div class="chart-container">
+            <canvas id="chartResultados" aria-label="Cobertura por método y parámetro"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <table style="width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid rgba(255,255,255,.2)">Método</th>
+                <th style="text-align:right; padding:8px; border-bottom:1px solid rgba(255,255,255,.2)">Parámetro</th>
+                <th style="text-align:right; padding:8px; border-bottom:1px solid rgba(255,255,255,.2)">Cobertura</th>
+                <th style="text-align:right; padding:8px; border-bottom:1px solid rgba(255,255,255,.2)">Sesgo relativo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:8px">Conveniencia</td>
+                <td style="padding:8px; text-align:right">Proporción</td>
+                <td style="padding:8px; text-align:right">2,86 %</td>
+                <td style="padding:8px; text-align:right">−17,17 %</td>
+              </tr>
+              <tr>
+                <td style="padding:8px">Conveniencia</td>
+                <td style="padding:8px; text-align:right">Media</td>
+                <td style="padding:8px; text-align:right">2,61 %</td>
+                <td style="padding:8px; text-align:right">+10,30 %</td>
+              </tr>
+              <tr>
+                <td style="padding:8px">Aleatorio</td>
+                <td style="padding:8px; text-align:right">Proporción</td>
+                <td style="padding:8px; text-align:right">94,72 %</td>
+                <td style="padding:8px; text-align:right">≈ 0,03 %</td>
+              </tr>
+              <tr>
+                <td style="padding:8px">Aleatorio</td>
+                <td style="padding:8px; text-align:right">Media</td>
+                <td style="padding:8px; text-align:right">93,94 %</td>
+                <td style="padding:8px; text-align:right">≈ 0,00 %</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="lead" style="margin-top:10px">Conclusión empírica</div>
+          <p style="margin-top:4px">
+            La cobertura colapsa bajo conveniencia, incluso con $n$ calculado, mientras que el diseño aleatorio preserva niveles de cobertura cercanos a 95 por ciento.
+          </p>
         </div>
       </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
+      <div class="footer">
+        <span class="chip">Evidencia</span>
+        <span>El diseño de muestreo determina la validez inferencial</span>
       </div>
     </section>
 
-    <!-- 12. Pautas -->
-    <section class="slide" data-id="12" data-title="Pautas prácticas">
-      <span class="numtag">12</span>
+    <!-- 9. Pautas -->
+    <section class="slide" data-id="9" data-title="Pautas prácticas">
+      <span class="numtag">9</span>
       <h2>Pautas prácticas para evitar errores</h2>
       <div class="grid cols-3">
         <div class="card">
@@ -883,14 +629,15 @@ resumen <- datos_limpios %>%<br>
           </ul>
         </div>
       </div>
-      <div class="slide-footer">
-        Autor: Diego Bernardo Meza
+      <div class="footer">
+        <span class="chip">Buenas prácticas</span>
+        <span>Transparencia, coherencia, replicabilidad</span>
       </div>
     </section>
 
-    <!-- 13. Cierre -->
-    <section class="slide" data-id="13" data-title="Cierre y mensajes finales">
-      <span class="numtag">13</span>
+    <!-- 10. Cierre -->
+    <section class="slide" data-id="10" data-title="Cierre y mensajes finales">
+      <span class="numtag">10</span>
       <h2>Cierre</h2>
       <div class="card ok">
         <ul class="bullets">
@@ -899,9 +646,29 @@ resumen <- datos_limpios %>%<br>
           <li class="step">La estrategia operativa permite muestreo aleatorio en escenarios sin población cerrada.</li>
         </ul>
       </div>
-      <div class="slide-footer">
+      <div class="footer">
         <span class="chip pulse">Gracias</span>
-        <span>Autor: Diego Bernardo Meza</span>
+        <span>Preguntas y comentarios</span>
+      </div>
+    </section>
+
+    <!-- 11. Referencias clave -->
+    <section class="slide" data-id="11" data-title="Referencias clave">
+      <span class="numtag">11</span>
+      <h2>Referencias clave</h2>
+      <div class="card">
+        <ul class="bullets" style="columns:2; column-gap:28px">
+          <li>Ávalos Espinosa, Rivas Martínez, Correa Paredes, Veloto. Errores recurrentes en torno al tamaño muestral, 2025.</li>
+          <li>Cochran, W. G. Sampling Techniques, 3 ed., 1977.</li>
+          <li>Norman, G. Likert scales and the "laws" of statistics, 2010.</li>
+          <li>Sullivan y Artino. Interpreting Likert-type data, 2013.</li>
+          <li>NSB, Publications output 2023.</li>
+          <li>Estudios clásicos y recientes enumerados en el artículo y webinar.</li>
+        </ul>
+      </div>
+      <div class="footer">
+        <span class="chip">Fuente</span>
+        <span>Artículo y webinar, selección de citas fundamentales</span>
       </div>
     </section>
   </main>
@@ -920,8 +687,7 @@ resumen <- datos_limpios %>%<br>
     // Estado
     const slides = $$('.slide');
     let idx = 0;
-    let simulationChart = null;
-    let simulationRunning = false;
+    let chartResultados = null;
 
     // Crear efecto de partículas
     function createParticles() {
@@ -986,225 +752,134 @@ resumen <- datos_limpios %>%<br>
       return 0;
     }
 
-    // Simulación de muestreo
-    function runSimulation() {
-      if (simulationRunning) return;
-      simulationRunning = true;
-      
-      const status = $('#simulationStatus');
-      status.textContent = 'Ejecutando simulación...';
-      
-      // Parámetros de la simulación
-      const N = 279152;  // Tamaño poblacional
-      const pTrue = 0.52; // Proporción real de mujeres
-      const meanTrue = 7077586; // Media salarial real
-      const n = 384; // Tamaño muestral
-      const R = 1000; // Número de réplicas
-      const Z = 1.96; // Valor Z para 95% de confianza
-      
-      // Resultados acumulativos
-      let coverageConvProp = 0;
-      let coverageConvMean = 0;
-      let coverageRandProp = 0;
-      let coverageRandMean = 0;
-      
-      let biasConvProp = 0;
-      let biasConvMean = 0;
-      let biasRandProp = 0;
-      let biasRandMean = 0;
-      
-      let completed = 0;
-      
-      // Función para actualizar la interfaz
-      function updateUI() {
-        const progress = completed / R;
-        
-        // Actualizar estadísticas
-        $('#coverageConv').textContent = `${((coverageConvProp + coverageConvMean) / (2 * completed) * 100).toFixed(1)}%`;
-        $('#propConv').textContent = `${(coverageConvProp / completed * 100).toFixed(1)}%`;
-        $('#meanConv').textContent = `${(coverageConvMean / completed * 100).toFixed(1)}%`;
-        
-        $('#coverageRand').textContent = `${((coverageRandProp + coverageRandMean) / (2 * completed) * 100).toFixed(1)}%`;
-        $('#propRand').textContent = `${(coverageRandProp / completed * 100).toFixed(1)}%`;
-        $('#meanRand').textContent = `${(coverageRandMean / completed * 100).toFixed(1)}%`;
-        
-        $('#biasConv').textContent = `${(Math.abs(biasConvProp + biasConvMean) / (2 * completed) * 100).toFixed(1)}%`;
-        $('#biasPropConv').textContent = `${(Math.abs(biasConvProp) / completed * 100).toFixed(1)}%`;
-        $('#biasMeanConv').textContent = `${(Math.abs(biasConvMean) / completed * 100).toFixed(1)}%`;
-        
-        $('#biasRand').textContent = `${(Math.abs(biasRandProp + biasRandMean) / (2 * completed) * 100).toFixed(1)}%`;
-        $('#biasPropRand').textContent = `${(Math.abs(biasRandProp) / completed * 100).toFixed(1)}%`;
-        $('#biasMeanRand').textContent = `${(Math.abs(biasRandMean) / completed * 100).toFixed(1)}%`;
-        
-        // Actualizar gráfico
-        updateChart(
-          coverageConvProp / completed * 100,
-          coverageConvMean / completed * 100,
-          coverageRandProp / completed * 100,
-          coverageRandMean / completed * 100
-        );
-        
-        status.textContent = `Simulando... ${completed}/${R} (${(progress * 100).toFixed(1)}%)`;
-        
-        if (completed < R) {
-          setTimeout(processNext, 10);
-        } else {
-          simulationRunning = false;
-          status.textContent = 'Simulación completada';
-        }
-      }
-      
-      // Procesar siguiente iteración
-      function processNext() {
-        // Simular muestreo por conveniencia (sesgado)
-        const pConv = pTrue * (0.7 + Math.random() * 0.3); // Sesgo en proporción
-        const meanConv = meanTrue * (0.8 + Math.random() * 0.4); // Sesgo en media
-        
-        // Calcular intervalos de confianza para conveniencia
-        const sePConv = Math.sqrt(pConv * (1 - pConv) / n);
-        const icPConvLo = pConv - Z * sePConv;
-        const icPConvHi = pConv + Z * sePConv;
-        
-        const seMeanConv = 2482200 / Math.sqrt(n); // Usar desviación estándar conocida
-        const icMeanConvLo = meanConv - Z * seMeanConv;
-        const icMeanConvHi = meanConv + Z * seMeanConv;
-        
-        // Verificar cobertura para conveniencia
-        if (pTrue >= icPConvLo && pTrue <= icPConvHi) coverageConvProp++;
-        if (meanTrue >= icMeanConvLo && meanTrue <= icMeanConvHi) coverageConvMean++;
-        
-        // Calcular sesgo para conveniencia
-        biasConvProp += Math.abs(pConv - pTrue);
-        biasConvMean += Math.abs(meanConv - meanTrue);
-        
-        // Simular muestreo aleatorio (no sesgado)
-        const pRand = pTrue + (Math.random() - 0.5) * 0.1; // Pequeña variación aleatoria
-        const meanRand = meanTrue + (Math.random() - 0.5) * 500000; // Pequeña variación aleatoria
-        
-        // Calcular intervalos de confianza para aleatorio
-        const sePRand = Math.sqrt(pRand * (1 - pRand) / n);
-        const icPRandLo = pRand - Z * sePRand;
-        const icPRandHi = pRand + Z * sePRand;
-        
-        const seMeanRand = 2482200 / Math.sqrt(n);
-        const icMeanRandLo = meanRand - Z * seMeanRand;
-        const icMeanRandHi = meanRand + Z * seMeanRand;
-        
-        // Verificar cobertura para aleatorio
-        if (pTrue >= icPRandLo && pTrue <= icPRandHi) coverageRandProp++;
-        if (meanTrue >= icMeanRandLo && meanTrue <= icMeanRandHi) coverageRandMean++;
-        
-        // Calcular sesgo para aleatorio
-        biasRandProp += Math.abs(pRand - pTrue);
-        biasRandMean += Math.abs(meanRand - meanTrue);
-        
-        completed++;
-        updateUI();
-      }
-      
-      // Iniciar la simulación
-      processNext();
-    }
-    
-    // Actualizar gráfico de simulación
-    function updateChart(convProp, convMean, randProp, randMean) {
-      const canvas = $('#simulationChart');
-      const ctx = canvas.getContext('2d');
+    // Inicializar gráfico
+    function initChart() {
+      const canvas = $('#chartResultados');
+      if (!canvas) return;
       
       // Destruir gráfico anterior si existe
-      if (simulationChart) {
-        simulationChart.destroy();
+      if (chartResultados) {
+        chartResultados.destroy();
       }
       
-      simulationChart = new Chart(ctx, {
+      const ctx = canvas.getContext('2d');
+      
+      // Datos de cobertura por método y parámetro
+      const labels = ['Conv. Proporción','Conv. Media','Aleat. Proporción','Aleat. Media'];
+      const cobertura = [2.86, 2.61, 94.72, 93.94];
+      const sesgo = [-17.17, 10.30, 0.03, 0.00];
+      
+      // Colores
+      const barColors = ['#ff4757', '#ff4757', '#00b4d8', '#00b4d8'];
+      const lineColor = '#ffa502';
+
+      // Gráfico combinado: barras cobertura, línea sesgo
+      chartResultados = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['Conveniencia - Proporción', 'Conveniencia - Media', 'Aleatorio - Proporción', 'Aleatorio - Media'],
-          datasets: [{
-            label: 'Cobertura (%)',
-            data: [convProp, convMean, randProp, randMean],
-            backgroundColor: [
-              'rgba(255, 71, 87, 0.7)',
-              'rgba(255, 71, 87, 0.7)',
-              'rgba(0, 180, 216, 0.7)',
-              'rgba(0, 180, 216, 0.7)'
-            ],
-            borderColor: [
-              'rgb(255, 71, 87)',
-              'rgb(255, 71, 87)',
-              'rgb(0, 180, 216)',
-              'rgb(0, 180, 216)'
-            ],
-            borderWidth: 1
-          }]
+          labels,
+          datasets: [
+            { 
+              label: 'Cobertura %', 
+              data: cobertura, 
+              yAxisID: 'y1',
+              backgroundColor: barColors,
+              borderColor: barColors.map(color => color.replace('0.8', '1')),
+              borderWidth: 1,
+              borderRadius: 4
+            },
+            { 
+              type: 'line', 
+              label: 'Sesgo relativo %', 
+              data: sesgo, 
+              yAxisID: 'y2',
+              borderColor: lineColor,
+              backgroundColor: 'transparent',
+              borderWidth: 3,
+              pointBackgroundColor: lineColor,
+              pointRadius: 5,
+              pointHoverRadius: 7
+            }
+          ]
         },
         options: {
-          responsive: true,
+          responsive: true, 
           maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: 100,
-              ticks: {
-                color: '#a6b4e6'
-              },
-              grid: {
-                color: 'rgba(166, 180, 230, 0.1)'
-              }
-            },
-            x: {
-              ticks: {
-                color: '#a6b4e6'
-              },
-              grid: {
-                color: 'rgba(166, 180, 230, 0.1)'
-              }
-            }
-          },
-          plugins: {
-            legend: {
+          plugins: { 
+            legend: { 
+              position: 'bottom',
               labels: {
-                color: '#eaf0ff'
+                color: '#eaf0ff',
+                font: {
+                  family: "'Open Sans', sans-serif"
+                }
               }
             },
             tooltip: {
               backgroundColor: 'rgba(18, 26, 51, 0.9)',
               titleColor: '#eaf0ff',
-              bodyColor: '#eaf0ff'
+              bodyColor: '#eaf0ff',
+              borderColor: 'rgba(255, 255, 255, 0.2)',
+              borderWidth: 1
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: '#a6b4e6',
+                font: {
+                  family: "'Open Sans', sans-serif"
+                }
+              },
+              grid: {
+                color: 'rgba(166, 180, 230, 0.1)'
+              }
+            },
+            y1: { 
+              position: 'left', 
+              title: {
+                display: true, 
+                text: 'Cobertura %',
+                color: '#a6b4e6',
+                font: {
+                  family: "'Open Sans', sans-serif"
+                }
+              }, 
+              min: 0, 
+              max: 100, 
+              grid: {
+                color: 'rgba(166, 180, 230, 0.1)'
+              },
+              ticks: {
+                color: '#a6b4e6',
+                font: {
+                  family: "'Open Sans', sans-serif"
+                }
+              }
+            },
+            y2: { 
+              position: 'right', 
+              title: {
+                display: true, 
+                text: 'Sesgo %',
+                color: '#a6b4e6',
+                font: {
+                  family: "'Open Sans', sans-serif"
+                }
+              }, 
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#a6b4e6',
+                font: {
+                  family: "'Open Sans', sans-serif"
+                }
+              }
             }
           }
         }
       });
-    }
-    
-    // Reiniciar simulación
-    function resetSimulation() {
-      if (simulationRunning) return;
-      
-      // Reiniciar estadísticas
-      $('#coverageConv').textContent = '0%';
-      $('#propConv').textContent = '0%';
-      $('#meanConv').textContent = '0%';
-      
-      $('#coverageRand').textContent = '0%';
-      $('#propRand').textContent = '0%';
-      $('#meanRand').textContent = '0%';
-      
-      $('#biasConv').textContent = '0%';
-      $('#biasPropConv').textContent = '0%';
-      $('#biasMeanConv').textContent = '0%';
-      
-      $('#biasRand').textContent = '0%';
-      $('#biasPropRand').textContent = '0%';
-      $('#biasMeanRand').textContent = '0%';
-      
-      $('#simulationStatus').textContent = 'Listo para ejecutar';
-      
-      // Reiniciar gráfico
-      if (simulationChart) {
-        simulationChart.destroy();
-        simulationChart = null;
-      }
     }
 
     // Progreso y activación
@@ -1238,11 +913,9 @@ resumen <- datos_limpios %>%<br>
         const steps = $$('.step', slides[idx]);
         steps.forEach((el, k) => setTimeout(() => el.classList.add('visible'), 150*(k+1)));
         
-        // Inicializar simulación si estamos en la slide 11
-        if (idx === 10) {
-          // Asignar eventos a los botones de simulación
-          $('#runSimulation').addEventListener('click', runSimulation);
-          $('#resetSimulation').addEventListener('click', resetSimulation);
+        // Inicializar gráfico si estamos en la slide 8
+        if (idx === 7) {
+          setTimeout(initChart, 300);
         }
       }, 400);
     }
