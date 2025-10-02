@@ -11,7 +11,7 @@ Presentación interactiva para congreso sobre errores metodológicos en cálculo
 - ✅ Simulación de muestreo en tiempo real
 
 ## 🚀 Ver Presentación
-**[👉 HAZ CLIC AQUÍ PARA VER LA PRESENTACIÓN]([https://TU-USUARIO.github.io/presentacion-muestreo](https://diegomezapy.github.io/errores_en_muetreo/)](https://diegomezapy.github.io/errores_en_muetreo/))**
+**[👉 HAZ CLIC AQUÍ PARA VER LA PRESENTACIÓN](https://diegomezapy.github.io/errores_en_muetreo/)](https://diegomezapy.github.io/errores_en_muetreo/)**
 
 ## 🎮 Controles
 - **Teclas**: ← → o Page Up/Down para navegar
